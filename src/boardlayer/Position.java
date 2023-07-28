@@ -12,14 +12,13 @@ public class Position {
 	public int getCollumn() {
 		return collumn;
 	}
-	public void setCollumn(int collumn) {
-		this.collumn = collumn;
-	}
+	
 	public int getRow() {
 		return row;
 	}
-	public void setRow(int row) {
+	public void setValues(int collumn,int row) {
 		this.row = row;
+		this.collumn=collumn;
 	}
 	@Override
 	public String toString() {

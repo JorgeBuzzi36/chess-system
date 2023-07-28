@@ -21,27 +21,36 @@ public class UI {
 	
 	// Peças vão de 0 a 7 para Colunas I e Linhas J, ao printar A 8, vamos ter linha j=7 e coluna i=0 com chessBoardPosition[0][7] = torre preta
 	
-	public static void printBoard(ChessPiece[][] chessBoardPosition) {
+	public static void printBoard(ChessPiece[][] chessBoardPosition, boolean[][] greenTiles) {
 		
 		for(int j=Board.getRows() -1; j>=0;j--) {
 			System.out.println();
 			System.out.print(j+1+"|");
 			for(int i=0;i<Board.getColumns();i++) {
 				if(chessBoardPosition[i][j]!=null) {
-					printPiece(chessBoardPosition[i][j]);
+					printPiece(chessBoardPosition[i][j],greenTiles[i][j]);
 				}
 				else {
-					System.out.print(" □");
+					if(greenTiles[i][j]) {
+						System.out.print(ANSI_GREEN+" □"+ANSI_RESET);
+					}
+					else {
+						System.out.print(" □");
+					}
 				}
 			}
 		}
 		System.out.print("\n |_________________");
-		System.out.println("\n  A B C D E F G H");
+		System.out.println("\n   A B C D E F G H");
 	}
 	
-	private static void printPiece(ChessPiece piece) {
+	private static void printPiece(ChessPiece piece, boolean greenTile) {
 		
-		if ( piece.getColor() ==Color.WHITE) {
+		if(greenTile) {
+			System.out.print(ANSI_GREEN+" "+piece.toString()+ANSI_RESET);
+		}
+		
+		else if ( piece.getColor() ==Color.WHITE) {
 			System.out.print(" "+piece.toString());
 		}
 		

@@ -8,6 +8,9 @@ public class ChessPosition {
 	private int row;
 	
 	
+	public ChessPosition() {
+		
+	}
 	
 	public ChessPosition(char column, int row) {
 		this.column = column;
