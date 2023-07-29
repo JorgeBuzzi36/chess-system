@@ -16,6 +16,27 @@ public class ChessMatch {
 		board = new Board();
 		this.startMatch();
 	}
+	
+	
+	
+	public Color getCurrentPlayer() {
+		return currentPlayer;
+	}
+
+
+
+	public void setCurrentPlayer(Color currentPlayer) {
+		this.currentPlayer = currentPlayer;
+	}
+
+
+
+	public boolean isCheckMate() {
+		return checkMate;
+	}
+
+
+
 	public Board getBoard() {
 		return this.board;
 	}
@@ -69,6 +90,38 @@ public class ChessMatch {
 		return this.board.piece(source.toPosition()).possibleMoves();
 		
 	}
+	
+	public ChessPiece performChessMove(ChessPosition source, ChessPosition target) {
+		ChessPiece p = (ChessPiece)getBoard().piece(source.toPosition());
+		Piece captured=null;
+		if (p.toString()=="P"&&p.getMoveCount()==0) {
+			int rowCheck=target.toPosition().getRow();
+			if(p.getColor()==Color.WHITE&&rowCheck==3) {
+				this.enPassantVunerable=p;
+			}
+			else if(p.getColor()==Color.BLACK&&rowCheck==4) {
+				this.enPassantVunerable=p;
+			}
+			
+		}
+		if(p.isThereOpponentPiece(target.toPosition())){
+			captured = getBoard().removePiece(target.toPosition());
+			
+		}
+		getBoard().removePiece(source.toPosition());
+		getBoard().placePiece(p, target.toPosition());
+		
+		p.increasseMoveCount();
+		
+		if(this.currentPlayer==Color.WHITE) {
+			this.currentPlayer=Color.BLACK;
+		}
+		else {
+			this.currentPlayer=Color.WHITE;
+		}
+		return (ChessPiece)captured;
+	}
+	
 	
 	public boolean[][] movablePieces() {
 	    boolean[][] movP = new boolean[board.getColumns()][board.getRows()];

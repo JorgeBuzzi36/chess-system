@@ -44,9 +44,12 @@ public class Pawn extends ChessPiece {
         	
         case BLACK:	
         	
-        	if(getBoard().piece(position.getCollumn(), position.getRow()+1)==null) {
-            	pMov[position.getCollumn()][position.getRow()+1]=true;
+        	if(getBoard().piece(position.getCollumn(), position.getRow()-1)==null) {
+            	pMov[position.getCollumn()][position.getRow()-1]=true;
+            	if(this.getMoveCount()==0&&getBoard().piece(position.getCollumn(), position.getRow()-2)==null) {
+            		pMov[position.getCollumn()][position.getRow()-2]=true;
             }
+        	}
             	int[][]directionsBlack = {{-1,-1},{1,-1}};
             	for(int[] direction :directionsBlack) {
             		int dCollumn=direction[0];
