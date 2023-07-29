@@ -16,6 +16,16 @@ public class ChessPosition {
 		this.column = column;
 		this.row = row;
 	}
+	
+	
+	
+	public char getColumn() {
+		return column;
+	}
+
+	public int getRow() {
+		return row;
+	}
 
 	public Position toPosition() {
 		

@@ -4,9 +4,10 @@ import boardlayer.Board;
 import boardlayer.Position;
 
 public class King extends ChessPiece{
-
-	public King(Board board, Color color) {
+	private ChessMatch chessMatch;
+	public King(Board board, Color color,ChessMatch chessMatch) {
 		super(board, color);
+		this.chessMatch=chessMatch;
 		// TODO Auto-generated constructor stub
 	}
 

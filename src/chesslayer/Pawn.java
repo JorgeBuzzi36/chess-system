@@ -4,10 +4,11 @@ import boardlayer.Board;
 import boardlayer.Position;
 
 public class Pawn extends ChessPiece {
-
-	public Pawn(Board board, Color color) {
+	private ChessMatch chessMatch;
+	
+	public Pawn(Board board, Color color,ChessMatch chessMatch) {
 		super(board, color);
-		// TODO Auto-generated constructor stub
+		this.chessMatch=chessMatch;
 	}
 
 	@Override
@@ -40,6 +41,25 @@ public class Pawn extends ChessPiece {
                      pMov[collumn][row] = true;
                  }
         	}
+        	//Consider implementing equal() in class Position
+
+        	if(this.chessMatch.getEnPassantVunerable()!=null) {
+           	 
+           	int toTheRight=position.getCollumn()+1;
+           	int toTheLeft=position.getCollumn()-1;
+           	int sameRow=position.getRow();
+           	
+           	
+           	if(this.chessMatch.getEnPassantVunerable().getPosition().getRow()==sameRow&&
+           			this.chessMatch.getEnPassantVunerable().getPosition().getCollumn()==toTheLeft){
+           		pMov[toTheLeft][sameRow+1]=true;
+           	}
+           	else if(this.chessMatch.getEnPassantVunerable().getPosition().getRow()==sameRow&&
+           			this.chessMatch.getEnPassantVunerable().getPosition().getCollumn()==toTheRight){
+           		pMov[toTheRight][sameRow+1]=true;
+           	}
+           
+           }
         	break;
         	
         case BLACK:	
@@ -61,11 +81,29 @@ public class Pawn extends ChessPiece {
                          pMov[collumn][row] = true;
                      }
             	}
+            	//Consider implementing equal() in class Position
+                if(this.chessMatch.getEnPassantVunerable()!=null) {
+                	
+                	int toTheRight=position.getCollumn()+1;
+                	int toTheLeft=position.getCollumn()-1;
+                	int sameRow=position.getRow();
+                	
+                	
+                	if(this.chessMatch.getEnPassantVunerable().getPosition().getRow()==sameRow&&
+                			this.chessMatch.getEnPassantVunerable().getPosition().getCollumn()==toTheLeft){
+                		pMov[toTheLeft][sameRow-1]=true;
+                	}
+                	else if(this.chessMatch.getEnPassantVunerable().getPosition().getRow()==sameRow&&
+                			this.chessMatch.getEnPassantVunerable().getPosition().getCollumn()==toTheRight){
+                		pMov[toTheRight][sameRow-1]=true;
+                	}
+                
+                }
             	break;
         	
         	
         }
-        
+       
         
         return pMov;
     }

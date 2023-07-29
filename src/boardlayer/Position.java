@@ -1,5 +1,7 @@
 package boardlayer;
 
+import java.util.Objects;
+
 public class Position {
 	
 	private int collumn;
@@ -23,6 +25,22 @@ public class Position {
 	@Override
 	public String toString() {
 		return "Position: " + collumn + ", " + row;
+	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(collumn, row);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Position other = (Position) obj;
+		return collumn == other.collumn && row == other.row;
 	}
 	
 	

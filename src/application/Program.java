@@ -49,10 +49,12 @@ public class Program {
 				}
 				chessMatch.performChessMove(sourcePosition, targetPosition);
 				
-				
-				
+				if(chessMatch.getEnPassantVunerable()!=null) {
+				System.out.println("\nOnPessant:" + chessMatch.getEnPassantVunerable().getChessPosition());
+				}
 				
 			}
+			sc.close();
 	}
 
 }
