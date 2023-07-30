@@ -28,14 +28,17 @@ public class ChessMove {
 	
 	public ChessPosition[] extractChessPosition() {
 		ChessPiece[][]matchPosition = chessMatch.getPieces();
-		String chessPiece = chessMove.substring(0).toUpperCase();
-		String targetPosition = chessMove.substring(1,2);
+		String chessPiece = chessMove.substring(0,1);
+		chessPiece = chessPiece.toUpperCase();
+		String targetPosition = chessMove.substring(1,3);
 		char column = targetPosition.charAt(0);
 		int row = Integer.parseInt(targetPosition.substring(1));
 		
+		
 		for(int i=0;i<chessMatch.getBoard().getColumns();i++) {
 			for(int j=0 ;j<chessMatch.getBoard().getRows();j++) {
-				if(chessPiece==matchPosition[i][j].toString()&&matchPosition[i][j].getColor()==chessMatch.getCurrentPlayer()
+				//this if statment is not working properly, check later
+				if(matchPosition[i][j]!=null&&chessPiece==matchPosition[i][j].toString()&&matchPosition[i][j].getColor()==chessMatch.getCurrentPlayer()
 						&& pieceCanMoveThere(matchPosition[i][j], column, row)) {
 					int[] anotherPiece =null;
 					anotherPiece =isThereAnotherPieceWithTheSamePossibleMove(column,row,chessPiece);
@@ -47,6 +50,7 @@ public class ChessMove {
 						
 						chessPosition[0] = sourceChessPosition;
 						chessPosition[1] = targetChessPosition;
+						System.out.println("Moving :"+ chessPiece+ chessPosition[0]+" to " + chessPosition[1]);
 						return chessPosition;
 					}
 					else {

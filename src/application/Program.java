@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 import chesslayer.ChessMatch;
-import chesslayer.ChessPiece;
+import chesslayer.ChessMove;
 import chesslayer.ChessPosition;
 
 public class Program {
@@ -27,7 +27,11 @@ public class Program {
 			if (optionHighlitedPieces == 'y') {
 				UI.printBoard(chessMatch.getPieces(), greenTiles);
 			}
-
+			System.out.println("Move position:");
+			sc.nextLine();
+			ChessMove chessMove = new ChessMove ("pe4",chessMatch);
+			chessMove.extractChessPosition();
+			
 			System.out.println(chessMatch.getCurrentPlayer() + "to move:");
 			ChessPosition sourcePosition = checkInput(sc);
 
