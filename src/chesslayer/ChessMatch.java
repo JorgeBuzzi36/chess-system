@@ -52,7 +52,7 @@ public class ChessMatch {
 			board.placePiece(new Pawn(this.board, Color.WHITE,this),
 					new ChessPosition((char) ((int) 'a' + i), 2).toPosition());
 		}  
-		board.placePiece(new Pawn(this.board, Color.WHITE,this), new ChessPosition('a', 6).toPosition());
+		
 		board.placePiece(new Rook(this.board, Color.WHITE), new ChessPosition('a', 1).toPosition());
 		board.placePiece(new Rook(this.board, Color.WHITE), new ChessPosition('h', 1).toPosition());
 		board.placePiece(new Knight(this.board, Color.WHITE), new ChessPosition('b', 1).toPosition());
@@ -76,9 +76,9 @@ public class ChessMatch {
 		board.placePiece(new Bishop(this.board, Color.BLACK), new ChessPosition('f', 8).toPosition());
 		board.placePiece(new King(this.board, Color.BLACK,this), new ChessPosition('e', 8).toPosition());
 		board.placePiece(new Queen(this.board, Color.BLACK), new ChessPosition('d', 8).toPosition());
-
+		
 	}
-
+	
 	public ChessPiece[][] getPieces() {
 
 		ChessPiece[][] chessBoardPosition = new ChessPiece[board.getColumns()][board.getRows()];
@@ -159,7 +159,7 @@ public class ChessMatch {
 			captured = getBoard().removePiece(target.toPosition());
 
 		}
-		if(this.enPassantVunerable!=null) {
+		if(this.enPassantVunerable!=null&&this.enPassantVunerable.getPosition()!=null) {
 			if(this.currentPlayer==Color.WHITE) {
 				ChessPosition enPassantTest = new ChessPosition(target.getColumn(),target.getRow()-1);
 				if(!p.isThereOpponentPiece(target.toPosition())&&this.enPassantVunerable.getPosition().equals(enPassantTest.toPosition())) {
