@@ -37,8 +37,9 @@ public class ChessMove {
 		
 		for(int i=0;i<chessMatch.getBoard().getColumns();i++) {
 			for(int j=0 ;j<chessMatch.getBoard().getRows();j++) {
-				//this if statment is not working properly, check later
-				if(matchPosition[i][j]!=null&&chessPiece==matchPosition[i][j].toString()&&matchPosition[i][j].getColor()==chessMatch.getCurrentPlayer()
+				
+				
+				if(matchPosition[i][j]!=null&&chessPiece.equals(matchPosition[i][j].toString())&&matchPosition[i][j].getColor().equals(chessMatch.getCurrentPlayer())
 						&& pieceCanMoveThere(matchPosition[i][j], column, row)) {
 					int[] anotherPiece =null;
 					anotherPiece =isThereAnotherPieceWithTheSamePossibleMove(column,row,chessPiece);
@@ -67,7 +68,8 @@ public class ChessMove {
 		
 		return null;
 	}
-
+	
+	
 	private int[] isThereAnotherPieceWithTheSamePossibleMove(char column, int row, String chessPiece) {
 		ChessPiece[][]matchPosition = chessMatch.getPieces();
 		
