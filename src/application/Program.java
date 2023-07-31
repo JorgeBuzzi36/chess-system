@@ -27,11 +27,12 @@ public class Program {
 			if (optionHighlitedPieces == 'y') {
 				UI.printBoard(chessMatch.getPieces(), greenTiles);
 			}
-			System.out.println("Move position:");
-			sc.nextLine();
-			ChessMove chessMove = new ChessMove ("pe4",chessMatch);
-			chessMove.extractChessPosition();
 			
+			/* Under maintenance 
+			System.out.println("Move position:");
+			ChessMove chessMove = new ChessMove ("pa4",chessMatch);
+			chessMove.extractChessPosition();
+										*/
 			System.out.println(chessMatch.getCurrentPlayer() + "to move:");
 			ChessPosition sourcePosition = checkInput(sc);
 
@@ -72,7 +73,7 @@ public class Program {
 			Set<Integer> checkRow = Set.of(1, 2, 3, 4, 5, 6, 7, 8);
 			String position = sc.nextLine();
 			while(position.length()!=2) {
-				System.out.println("Enter a valid position format (A letter and a number no space");
+				System.out.println("Enter a valid position format (A letter and a number no space)");
 				position = sc.nextLine();
 			}
 			

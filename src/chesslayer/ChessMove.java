@@ -2,7 +2,7 @@ package chesslayer;
 
 public class ChessMove {
 	
-	private ChessPosition[] chessPosition;
+	private ChessPosition[] chessPosition = new ChessPosition[2];
 	private String chessMove;
 	private ChessMatch chessMatch;
 	
@@ -12,13 +12,15 @@ public class ChessMove {
 		this.chessMatch=chessMatch;
 	}
 	
-	private boolean pieceCanMoveThere(ChessPiece matchPosition, int column, int row) {
+	private boolean pieceCanMoveThere(ChessPiece matchPosition, ChessPosition chessPosition) {
 		boolean[][] possibleMoves = matchPosition.possibleMoves();
 		
 		for(int i=0;i<chessMatch.getBoard().getColumns();i++) {
 			for(int j =0 ; j<chessMatch.getBoard().getRows();j++) {
 				
-				return	possibleMoves[i][j]&&column==i&&row==j;
+				if(possibleMoves[i][j]&&chessPosition.toPosition().getCollumn()==i&&chessPosition.toPosition().getRow()==j) {
+				return	true;
+				}
 			}
 		}
 		return false;
@@ -27,26 +29,30 @@ public class ChessMove {
 	
 	
 	public ChessPosition[] extractChessPosition() {
+		
 		ChessPiece[][]matchPosition = chessMatch.getPieces();
+		
+		//Convert string to a String with the piece name and a Chess Position i'm targeting
 		String chessPiece = chessMove.substring(0,1);
 		chessPiece = chessPiece.toUpperCase();
 		String targetPosition = chessMove.substring(1,3);
-		char column = targetPosition.charAt(0);
-		int row = Integer.parseInt(targetPosition.substring(1));
-		
+		char chessPositionColumn = targetPosition.charAt(0);
+		int chessPositionRow = Integer.parseInt(targetPosition.substring(1));
+		ChessPosition targetChessPosition=new ChessPosition(chessPositionColumn,chessPositionRow);
 		
 		for(int i=0;i<chessMatch.getBoard().getColumns();i++) {
 			for(int j=0 ;j<chessMatch.getBoard().getRows();j++) {
 				
 				
 				if(matchPosition[i][j]!=null&&chessPiece.equals(matchPosition[i][j].toString())&&matchPosition[i][j].getColor().equals(chessMatch.getCurrentPlayer())
-						&& pieceCanMoveThere(matchPosition[i][j], column, row)) {
+						&& pieceCanMoveThere(matchPosition[i][j], targetChessPosition)) {
 					int[] anotherPiece =null;
-					anotherPiece =isThereAnotherPieceWithTheSamePossibleMove(column,row,chessPiece);
 					ChessPosition sourceChessPosition = new ChessPosition();
 					sourceChessPosition = sourceChessPosition.fromPosition(i,j);
-					ChessPosition targetChessPosition = new ChessPosition();
-					targetChessPosition = targetChessPosition.fromPosition(column,row);
+					// ARRUMAR ISSO AQUI
+					anotherPiece =isThereAnotherPieceWithTheSamePossibleMove();
+					
+					
 					if(anotherPiece==null) {
 						
 						chessPosition[0] = sourceChessPosition;
@@ -70,19 +76,8 @@ public class ChessMove {
 	}
 	
 	
-	private int[] isThereAnotherPieceWithTheSamePossibleMove(char column, int row, String chessPiece) {
-		ChessPiece[][]matchPosition = chessMatch.getPieces();
+	private int[] isThereAnotherPieceWithTheSamePossibleMove() {
 		
-		for(int i=1;i<chessMatch.getBoard().getColumns();i++) {
-			for(int j =0;j<chessMatch.getBoard().getRows();j++) {
-				if(i!=column&&j!=row&&pieceCanMoveThere(matchPosition[i][j], column, row)) {
-					int[] anotherPiece = {i,j};
-					return anotherPiece;
-					
-				}
-				
-			}
-		}
 		
 		
 		return null;
