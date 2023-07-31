@@ -1,5 +1,9 @@
 package chesslayer;
 
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+
 public class ChessMove {
 	
 	private ChessPosition[] chessPosition = new ChessPosition[2];
@@ -33,54 +37,90 @@ public class ChessMove {
 		ChessPiece[][]matchPosition = chessMatch.getPieces();
 		
 		//Convert string to a String with the piece name and a Chess Position i'm targeting
-		String chessPiece = chessMove.substring(0,1);
-		chessPiece = chessPiece.toUpperCase();
-		String targetPosition = chessMove.substring(1,3);
+		//----------------------------------------
+		String chessPieceName = this.chessMove.substring(0,1);
+		chessPieceName = chessPieceName.toUpperCase();
+		String targetPosition = this.chessMove.substring(1,3);
 		char chessPositionColumn = targetPosition.charAt(0);
 		int chessPositionRow = Integer.parseInt(targetPosition.substring(1));
 		ChessPosition targetChessPosition=new ChessPosition(chessPositionColumn,chessPositionRow);
-		
+		//------------------------------------------------------------------
+		ChessPosition sourceChessPosition = new ChessPosition();
+		Set<ChessPosition> piecesThatCanMoveToTheTargetPosition = new HashSet<>();
+		//Scans the board for occupied positions, looks for the piece to move, checks if the found piece can move
+		//the targeted position
 		for(int i=0;i<chessMatch.getBoard().getColumns();i++) {
 			for(int j=0 ;j<chessMatch.getBoard().getRows();j++) {
 				
 				
-				if(matchPosition[i][j]!=null&&chessPiece.equals(matchPosition[i][j].toString())&&matchPosition[i][j].getColor().equals(chessMatch.getCurrentPlayer())
+				if(matchPosition[i][j]!=null&&chessPieceName.equals(matchPosition[i][j].toString())&&matchPosition[i][j].getColor().equals(chessMatch.getCurrentPlayer())
 						&& pieceCanMoveThere(matchPosition[i][j], targetChessPosition)) {
-					int[] anotherPiece =null;
-					ChessPosition sourceChessPosition = new ChessPosition();
-					sourceChessPosition = sourceChessPosition.fromPosition(i,j);
-					// ARRUMAR ISSO AQUI
-					anotherPiece =isThereAnotherPieceWithTheSamePossibleMove();
-					
-					
-					if(anotherPiece==null) {
-						
-						chessPosition[0] = sourceChessPosition;
-						chessPosition[1] = targetChessPosition;
-						System.out.println("Moving :"+ chessPiece+ chessPosition[0]+" to " + chessPosition[1]);
-						return chessPosition;
-					}
-					else {
-						ChessPosition anotherSourceChessPosition = new ChessPosition();
-						anotherSourceChessPosition = anotherSourceChessPosition.fromPosition(anotherPiece[0],anotherPiece[1]);
-						System.out.println("There are two different pieces of that type that can go to the same square, they are:"
-								+chessPiece+ sourceChessPosition +" and "+chessPiece+anotherSourceChessPosition);
-						
-					}
+					sourceChessPosition = sourceChessPosition.fromPosition(i,j);			
+					piecesThatCanMoveToTheTargetPosition.add(sourceChessPosition);
 				}
 				
 			}
 		}
+		//calls special treatment if 2 pieces of the same type can move to target chess position
+		if(piecesThatCanMoveToTheTargetPosition.size()==1) {
+			chessPosition[0] = sourceChessPosition;
+			chessPosition[1] = targetChessPosition;
+			System.out.println("Moving :"+ chessPieceName+ chessPosition[0]+" to " + chessPosition[1]);
+		}
+		else if(piecesThatCanMoveToTheTargetPosition.size()>1) {
+			System.out.println("Pieces that can move:");
+			for(ChessPosition s: piecesThatCanMoveToTheTargetPosition){
+				System.out.println("\nChessPosition 1:" + s.toString());
+			}
+			
+			chessPosition[0] = thereIsAnotherPossibleMove(piecesThatCanMoveToTheTargetPosition);
+			chessPosition[1] = targetChessPosition;
+			System.out.println("Moving :"+ chessPieceName+ chessPosition[0]+" to " + chessPosition[1]);
+		}
 		
-		return null;
+		if(chessPosition[0]==null||chessPosition[1]==null) {
+			return null;
+		}
+		
+		else {
+			return chessPosition;
+		}
+		
 	}
 	
 	
-	private int[] isThereAnotherPieceWithTheSamePossibleMove() {
+	private ChessPosition thereIsAnotherPossibleMove(Set<ChessPosition> m) {
+		Scanner sc2 = new Scanner(System.in);
+		Set<String> pChoices = new HashSet<>();
+		System.out.println("Whic one of those Pieces you wanna move:\n");
+		for(ChessPosition s: m){
+			System.out.println("ChessPosition 1:" + s.toString());
+			pChoices.add(s.toString());
+			System.out.println(s.toString());
+		}
+		String choice = sc2.nextLine();
+		while(!validateChoice(choice,pChoices)) {
+			System.out.println("Choose a valid position");
+			choice = sc2.nextLine();
+		}
+		char column = choice.charAt(0);
+		int row = Integer.parseInt(choice.substring(1));
 		
+		ChessPosition sourcePosition = new ChessPosition(column,row);
 		
-		
-		return null;
+		return sourcePosition;
+	}
+	// this is not working fix pls
+	private boolean validateChoice(String choice, Set<String> pChoices) {
+		int aux=0;
+		//returning inside the for only works properly on the last item of the Set
+		for(String s : pChoices) {
+			System.out.println(s);
+			if (s.equals(choice)) {
+				aux++;
+			}
+		}
+		return aux>0;
 	}
 	
 }

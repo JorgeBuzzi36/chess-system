@@ -40,7 +40,7 @@ public class ChessPosition {
 	}
 	@Override
 	public String toString() {
-		return "ChessPosition [column=" + column + ", row=" + row + "]";
+		return String.valueOf(column)+String.valueOf(row);
 	}
 
 	

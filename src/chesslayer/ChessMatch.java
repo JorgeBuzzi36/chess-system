@@ -67,7 +67,7 @@ public class ChessMatch {
 			board.placePiece(new Pawn(this.board, Color.BLACK,this),
 					new ChessPosition((char) ((int) 'a' + i), 7).toPosition());
 		}
-		board.placePiece(new Pawn(this.board, Color.BLACK,this), new ChessPosition('b', 7).toPosition());
+		board.placePiece(new Pawn(this.board, Color.BLACK,this), new ChessPosition('e', 3).toPosition());
 		board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('a', 8).toPosition());
 		board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('h', 8).toPosition());
 		board.placePiece(new Knight(this.board, Color.BLACK), new ChessPosition('b', 8).toPosition());

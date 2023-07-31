@@ -27,12 +27,29 @@ public class Program {
 			if (optionHighlitedPieces == 'y') {
 				UI.printBoard(chessMatch.getPieces(), greenTiles);
 			}
-			
-			/* Under maintenance 
+			sc.nextLine();
+			//Se digitar uma pea invalida, é nescessario dar um Enter para efetuar uma quebra de linha por algum motivo
+			//pe3 para testar o caso de 2 peças iguais que podem ir pra mesma casa
+			//Falta implementar lista com Log das jogadas efetuadas
+			// Codigo para notação algebrica curta
+			//-----------------------------------------------------
 			System.out.println("Move position:");
-			ChessMove chessMove = new ChessMove ("pa4",chessMatch);
-			chessMove.extractChessPosition();
-										*/
+			String chessMoveScan = sc.nextLine();
+			ChessMove chessMove = new ChessMove (chessMoveScan,chessMatch);
+			ChessPosition[] move = chessMove.extractChessPosition();
+			if (move!=null) {
+				ChessPosition sourcePosition = move[0];		
+				ChessPosition targetPosition = move[1];
+				chessMatch.performChessMove(sourcePosition, targetPosition);
+			}
+			else {
+				System.out.println("Invaid chess move");
+			}
+			//----------------------------------------------------------
+			
+			// Codigo notaçao algebrica longa
+			//------------------------------------------------
+			/*
 			System.out.println(chessMatch.getCurrentPlayer() + "to move:");
 			ChessPosition sourcePosition = checkInput(sc);
 
@@ -52,10 +69,11 @@ public class Program {
 				targetPosition =checkInput(sc);
 			}
 			chessMatch.performChessMove(sourcePosition, targetPosition);
-
+			// Teste funcionamento de En Passant
 			if (chessMatch.getEnPassantVunerable() != null) {
 				System.out.println("\nOnPessant:" + chessMatch.getEnPassantVunerable().getChessPosition());
 			}
+			*/
 
 		}
 		sc.close();
