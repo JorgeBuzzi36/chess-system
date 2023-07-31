@@ -20,18 +20,19 @@ public class Program {
 		char optionHighlitedPieces = sc.next().charAt(0);
 		System.out.println("Do you want to have the possible moves highlighted?y/n");
 		char optionHighlitedMoves = sc.next().charAt(0);
-
+		sc.nextLine();
 		while (!chessMatch.isCheckMate()) {
 			greenTiles = resetTiles;
 			greenTiles = chessMatch.movablePieces();
 			if (optionHighlitedPieces == 'y') {
 				UI.printBoard(chessMatch.getPieces(), greenTiles);
 			}
-			sc.nextLine();
-			//Se digitar uma pea invalida, é nescessario dar um Enter para efetuar uma quebra de linha por algum motivo
-			//pe3 para testar o caso de 2 peças iguais que podem ir pra mesma casa
-			//Falta implementar lista com Log das jogadas efetuadas
-			// Codigo para notação algebrica curta
+			// Codigo para notação algebrica curta:
+			
+				//Falta programação defensiva pra input errado
+				//pe3 para testar o caso de 2 peças iguais que podem ir pra mesma casa
+				//Falta implementar lista com Log das jogadas efetuadas
+			
 			//-----------------------------------------------------
 			System.out.println("Move position:");
 			String chessMoveScan = sc.nextLine();
