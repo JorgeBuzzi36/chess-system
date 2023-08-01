@@ -68,9 +68,9 @@ public class ChessMove {
 			System.out.println("Moving :"+ chessPieceName+ chessPosition[0]+" to " + chessPosition[1]);
 		}
 		else if(piecesThatCanMoveToTheTargetPosition.size()>1) {
-			System.out.println("Pieces that can move:");
+			
 			for(ChessPosition s: piecesThatCanMoveToTheTargetPosition){
-				System.out.println("\nChessPosition 1:" + s.toString());
+				
 			}
 			
 			chessPosition[0] = thereIsAnotherPossibleMove(piecesThatCanMoveToTheTargetPosition);
@@ -92,11 +92,10 @@ public class ChessMove {
 	private ChessPosition thereIsAnotherPossibleMove(Set<ChessPosition> m) {
 		Scanner sc2 = new Scanner(System.in);
 		Set<String> pChoices = new HashSet<>();
-		System.out.println("Whic one of those Pieces you wanna move:\n");
+		System.out.println("Whic one of those Pieces you wanna move:");
 		for(ChessPosition s: m){
-			System.out.println("ChessPosition 1:" + s.toString());
 			pChoices.add(s.toString());
-			System.out.println(s.toString());
+			System.out.print(s.toString()+" ");
 		}
 		String choice = sc2.nextLine();
 		while(!validateChoice(choice,pChoices)) {
@@ -115,7 +114,7 @@ public class ChessMove {
 		int aux=0;
 		//returning inside the for only works properly on the last item of the Set
 		for(String s : pChoices) {
-			System.out.println(s);
+			
 			if (s.equals(choice)) {
 				aux++;
 			}

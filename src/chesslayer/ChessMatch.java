@@ -14,6 +14,7 @@ public class ChessMatch {
 	private Color currentPlayer = Color.WHITE;
 	private boolean check;
 	private boolean checkMate;
+	private boolean castleAvaliable;
 	private ChessPiece enPassantVunerable;
 	private ChessPiece promoted;
 
@@ -28,6 +29,14 @@ public class ChessMatch {
 		}else {
 			return null;
 		}
+	}
+
+	public boolean isCastleAvaliable() {
+		return castleAvaliable;
+	}
+
+	public void setCastleAvaliable(boolean castleAvaliable) {
+		this.castleAvaliable = castleAvaliable;
 	}
 
 	public Color getCurrentPlayer() {
@@ -55,28 +64,33 @@ public class ChessMatch {
 		
 		board.placePiece(new Rook(this.board, Color.WHITE), new ChessPosition('a', 1).toPosition());
 		board.placePiece(new Rook(this.board, Color.WHITE), new ChessPosition('h', 1).toPosition());
-		board.placePiece(new Knight(this.board, Color.WHITE), new ChessPosition('b', 1).toPosition());
-		board.placePiece(new Knight(this.board, Color.WHITE), new ChessPosition('g', 1).toPosition());
-		board.placePiece(new Bishop(this.board, Color.WHITE), new ChessPosition('c', 1).toPosition());
-		board.placePiece(new Bishop(this.board, Color.WHITE), new ChessPosition('f', 1).toPosition());
+	//	board.placePiece(new Knight(this.board, Color.WHITE), new ChessPosition('b', 1).toPosition());
+	//	board.placePiece(new Knight(this.board, Color.WHITE), new ChessPosition('g', 1).toPosition());
+	//	board.placePiece(new Bishop(this.board, Color.WHITE), new ChessPosition('c', 1).toPosition());
+	//	board.placePiece(new Bishop(this.board, Color.WHITE), new ChessPosition('f', 1).toPosition());
 		board.placePiece(new King(this.board, Color.WHITE,this), new ChessPosition('e', 1).toPosition());
-		board.placePiece(new Queen(this.board, Color.WHITE), new ChessPosition('d', 1).toPosition());
+	//	board.placePiece(new Queen(this.board, Color.WHITE), new ChessPosition('d', 1).toPosition());
 
 		// Gerar peças pretas
 		for (int i = 0; i < board.getColumns(); i++) {
 			board.placePiece(new Pawn(this.board, Color.BLACK,this),
 					new ChessPosition((char) ((int) 'a' + i), 7).toPosition());
 		}
-		board.placePiece(new Pawn(this.board, Color.BLACK,this), new ChessPosition('e', 3).toPosition());
+		
 		board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('a', 8).toPosition());
 		board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('h', 8).toPosition());
-		board.placePiece(new Knight(this.board, Color.BLACK), new ChessPosition('b', 8).toPosition());
-		board.placePiece(new Knight(this.board, Color.BLACK), new ChessPosition('g', 8).toPosition());
-		board.placePiece(new Bishop(this.board, Color.BLACK), new ChessPosition('c', 8).toPosition());
-		board.placePiece(new Bishop(this.board, Color.BLACK), new ChessPosition('f', 8).toPosition());
+	//	board.placePiece(new Knight(this.board, Color.BLACK), new ChessPosition('b', 8).toPosition());
+	//	board.placePiece(new Knight(this.board, Color.BLACK), new ChessPosition('g', 8).toPosition());
+	//	board.placePiece(new Bishop(this.board, Color.BLACK), new ChessPosition('c', 8).toPosition());
+	//	board.placePiece(new Bishop(this.board, Color.BLACK), new ChessPosition('f', 8).toPosition());
 		board.placePiece(new King(this.board, Color.BLACK,this), new ChessPosition('e', 8).toPosition());
-		board.placePiece(new Queen(this.board, Color.BLACK), new ChessPosition('d', 8).toPosition());
+	//	board.placePiece(new Queen(this.board, Color.BLACK), new ChessPosition('d', 8).toPosition());
 		
+		//teste
+		board.placePiece(new Knight(this.board, Color.WHITE), new ChessPosition('c', 4).toPosition());
+		board.placePiece(new Pawn(this.board, Color.BLACK,this), new ChessPosition('e', 3).toPosition());
+		board.placePiece(new Knight(this.board, Color.WHITE), new ChessPosition('f', 5).toPosition());
+		board.placePiece(new Bishop(this.board, Color.WHITE), new ChessPosition('h', 6).toPosition());
 	}
 	
 	public ChessPiece[][] getPieces() {
@@ -173,6 +187,20 @@ public class ChessMatch {
 				}
 			}
 		}
+		// Long Castle
+		if(this.castleAvaliable&&target.getColumn()=='c'&&p.toString().equals("K")) {
+			ChessPosition longRook = new ChessPosition('a',target.getRow());
+			getBoard().removePiece(longRook.toPosition());
+			board.placePiece(new Rook(this.board, this.getCurrentPlayer()), new ChessPosition('d', target.getRow()).toPosition());
+		}
+		// Short Castle
+		if(this.castleAvaliable&&target.getColumn()=='g'&& p.toString().equals("K")) {
+			ChessPosition shortRook = new ChessPosition('h',target.getRow());
+			getBoard().removePiece(shortRook.toPosition());
+			board.placePiece(new Rook(this.board, this.getCurrentPlayer()), new ChessPosition('f', target.getRow()).toPosition());
+		}
+		
+		
 		p=(ChessPiece)getBoard().piece(source.toPosition());
 		getBoard().removePiece(source.toPosition());
 		getBoard().placePiece(p, target.toPosition());
@@ -200,7 +228,7 @@ public class ChessMatch {
 				Piece piece = board.piece(i, j);
 				if (piece != null && piece.getColor() == currentPlayer) {
 					movP[i][j] = piece.isThereAnyPossibleMoves();
-					System.out.println(piece.toString());
+					
 					if (movP[i][j]) {
 						aux++;
 					}

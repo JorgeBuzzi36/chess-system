@@ -51,7 +51,7 @@ public class Program {
 			// Codigo notaçao algebrica longa
 			//------------------------------------------------
 			/*
-			System.out.println(chessMatch.getCurrentPlayer() + "to move:");
+			System.out.println(chessMatch.getCurrentPlayer() + " to move:");
 			ChessPosition sourcePosition = checkInput(sc);
 
 			while (sourcePosition==null||positionCondition(chessMatch,sourcePosition,greenTiles)){
@@ -70,10 +70,8 @@ public class Program {
 				targetPosition =checkInput(sc);
 			}
 			chessMatch.performChessMove(sourcePosition, targetPosition);
-			// Teste funcionamento de En Passant
-			if (chessMatch.getEnPassantVunerable() != null) {
-				System.out.println("\nOnPessant:" + chessMatch.getEnPassantVunerable().getChessPosition());
-			}
+			
+			//-----------------------------------------------------------
 			*/
 
 		}
