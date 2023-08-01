@@ -44,11 +44,12 @@ public class ChessMove {
 		char chessPositionColumn = targetPosition.charAt(0);
 		int chessPositionRow = Integer.parseInt(targetPosition.substring(1));
 		ChessPosition targetChessPosition=new ChessPosition(chessPositionColumn,chessPositionRow);
+
 		//------------------------------------------------------------------
 		ChessPosition sourceChessPosition = new ChessPosition();
 		Set<ChessPosition> piecesThatCanMoveToTheTargetPosition = new HashSet<>();
-		//Scans the board for occupied positions, looks for the piece to move, checks if the found piece can move
-		//the targeted position
+		//Scans the board for occupied positions, looks for the piece to move, checks if the found piece can move...
+		//... to the targeted position
 		for(int i=0;i<chessMatch.getBoard().getColumns();i++) {
 			for(int j=0 ;j<chessMatch.getBoard().getRows();j++) {
 				
@@ -68,11 +69,6 @@ public class ChessMove {
 			System.out.println("Moving :"+ chessPieceName+ chessPosition[0]+" to " + chessPosition[1]);
 		}
 		else if(piecesThatCanMoveToTheTargetPosition.size()>1) {
-			
-			for(ChessPosition s: piecesThatCanMoveToTheTargetPosition){
-				
-			}
-			
 			chessPosition[0] = thereIsAnotherPossibleMove(piecesThatCanMoveToTheTargetPosition);
 			chessPosition[1] = targetChessPosition;
 			System.out.println("Moving :"+ chessPieceName+ chessPosition[0]+" to " + chessPosition[1]);
@@ -109,7 +105,7 @@ public class ChessMove {
 		
 		return sourcePosition;
 	}
-	// this is not working fix pls
+	
 	private boolean validateChoice(String choice, Set<String> pChoices) {
 		int aux=0;
 		//returning inside the for only works properly on the last item of the Set

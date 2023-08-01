@@ -78,4 +78,12 @@ public class King extends ChessPiece {
 				
 	}
 	
+	public boolean[][] legalMoves(boolean [][] possibleMoves){
+		
+		
+		
+		return possibleMoves;
+	}
+	
+	
 }

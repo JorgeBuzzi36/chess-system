@@ -14,7 +14,6 @@ public class Program {
 		Scanner sc = new Scanner(System.in);
 		ChessMatch chessMatch = new ChessMatch();
 		boolean greenTiles[][] = new boolean[chessMatch.getBoard().getColumns()][chessMatch.getBoard().getRows()];
-		boolean resetTiles[][] = new boolean[chessMatch.getBoard().getColumns()][chessMatch.getBoard().getRows()];
 		UI.printBoard(chessMatch.getPieces(), greenTiles);
 		System.out.println("Do you want to have the possible movable pieces highlighted?y/n");
 		char optionHighlitedPieces = sc.next().charAt(0);
@@ -22,22 +21,21 @@ public class Program {
 		char optionHighlitedMoves = sc.next().charAt(0);
 		sc.nextLine();
 		while (!chessMatch.isCheckMate()) {
-			greenTiles = resetTiles;
 			greenTiles = chessMatch.movablePieces();
 			if (optionHighlitedPieces == 'y') {
 				UI.printBoard(chessMatch.getPieces(), greenTiles);
 			}
-			// Codigo para notação algebrica curta:
+			// Codigo para notação algebrica curta ( ex: pe4 ) 
 			
 				//Falta programação defensiva pra input errado
-				//pe3 para testar o caso de 2 peças iguais que podem ir pra mesma casa
-				//Falta implementar lista com Log das jogadas efetuadas
-			
+				//Falta implementar lista com Log das jogadas efetuadas (opcional)
+			/*
 			//-----------------------------------------------------
-			System.out.println("Move position:");
+			System.out.println(chessMatch.getCurrentPlayer() + " to move:");
 			String chessMoveScan = sc.nextLine();
 			ChessMove chessMove = new ChessMove (chessMoveScan,chessMatch);
 			ChessPosition[] move = chessMove.extractChessPosition();
+			
 			if (move!=null) {
 				ChessPosition sourcePosition = move[0];		
 				ChessPosition targetPosition = move[1];
@@ -47,10 +45,12 @@ public class Program {
 				System.out.println("Invaid chess move");
 			}
 			//----------------------------------------------------------
+			 */
+			 
 			
-			// Codigo notaçao algebrica longa
+			// Codigo notaçao algebrica longa (ex: enter e2 then enter e4)
 			//------------------------------------------------
-			/*
+			
 			System.out.println(chessMatch.getCurrentPlayer() + " to move:");
 			ChessPosition sourcePosition = checkInput(sc);
 
@@ -71,8 +71,9 @@ public class Program {
 			}
 			chessMatch.performChessMove(sourcePosition, targetPosition);
 			
+			
 			//-----------------------------------------------------------
-			*/
+			
 
 		}
 		sc.close();
@@ -97,9 +98,6 @@ public class Program {
 			char column = position.charAt(0);
 			int row = Integer.parseInt(position.substring(1));
 			
-			
-			//char column = sc.next().charAt(0);
-			//int row = sc.nextInt();
 			
 			checkColumn.contains(column);
 			checkRow.contains(row);

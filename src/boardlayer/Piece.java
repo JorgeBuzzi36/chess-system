@@ -1,5 +1,6 @@
 package boardlayer;
 
+import chesslayer.ChessPosition;
 import chesslayer.Color;
 
 public abstract class Piece {
@@ -22,7 +23,7 @@ public abstract class Piece {
 	public Position getPosition() {
 		return position;
 	}
-
+	
 	public abstract boolean[][] possibleMoves();
 	
 	public boolean possibleMove(Position position) {
@@ -33,6 +34,8 @@ public abstract class Piece {
 	public boolean isThereAnyPossibleMoves() {
 		
 		boolean[][]pMoves = possibleMoves();
+		
+		
 		for (int i=0;i<board.getColumns();i++) {
 			for(int j=0;j<board.getRows();j++) {
 				if(pMoves[i][j]==true) {
