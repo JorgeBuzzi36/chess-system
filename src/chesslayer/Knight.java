@@ -67,20 +67,21 @@ public class Knight extends ChessPiece{
 			int dRow = direction[1];
 			int collumn = getPosition().getCollumn() + dCollumn;
 			int row = getPosition().getRow() + dRow;
-
+			
+			//Checks if the piece is directly shielding another piece
 			while (getBoard().positionExists(collumn, row) && !getBoard().isTherePiece(new Position(collumn, row))) {
 
 				collumn += dCollumn;
 				row += dRow;
 			}
-
+			//Checks if the piece being shielded is the King
 			if (getBoard().positionExists(collumn, row) && isThereMyKing(new Position(collumn, row))) {
 				
 				dCollumn *= -1;
 				dRow *= -1;
 				collumn += dCollumn;
 				row += dRow;
-
+			//Checking all the legal moves that will keep the king save 	
 				while (getBoard().positionExists(collumn, row) && !getBoard().isTherePiece(new Position(collumn, row))) {
 
 					onlyLegalMoves[collumn][row] = true;
@@ -92,7 +93,10 @@ public class Knight extends ChessPiece{
 				
 				if (getBoard().positionExists(collumn, row) && isThereOpponentPiece(new Position(collumn, row))) {
 					onlyLegalMoves[collumn][row] = true;
+					//Checa se ha tretas
+					if(checkThreats(dCollumn*dRow,getBoard().piece(new Position(collumn,row)).toString())) {
 					return onlyLegalMoves;
+					}
 				} else {
 					return everyMoveIsLegal;
 				}
@@ -100,6 +104,22 @@ public class Knight extends ChessPiece{
 
 		}
 		return everyMoveIsLegal;
+	}
+
+	
+
+	private boolean checkThreats(int direction, String string) {
+		// Returns true if its a Queen or a Bishop on a diagonal
+		if(direction!=0 && (string.equals("B")||string.equals("Q"))) {
+			return true;
+		}
+		// Returns true if its a Rook or a Queen on a straight line 
+		if(direction==0 && (string.equals("R")||string.equals("Q"))) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	private boolean isThereMyKing(Position position) {

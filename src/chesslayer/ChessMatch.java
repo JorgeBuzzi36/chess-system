@@ -85,7 +85,7 @@ public class ChessMatch {
 					new ChessPosition((char) ((int) 'a' + i), 7).toPosition());
 		}
 		
-		board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('b', 1).toPosition());
+		board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('a', 8).toPosition());
 		board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('h', 8).toPosition());
 	//	board.placePiece(new Knight(this.board, Color.BLACK), new ChessPosition('b', 8).toPosition());
 	//	board.placePiece(new Knight(this.board, Color.BLACK), new ChessPosition('g', 8).toPosition());
@@ -96,7 +96,7 @@ public class ChessMatch {
 		
 		//test
 		board.placePiece(new Rook(this.board, Color.WHITE), new ChessPosition('c', 1).toPosition());
-		
+		board.placePiece(new Bishop(this.board, Color.BLACK), new ChessPosition('b', 1).toPosition());
 	}
 	
 	public ChessPiece[][] getPieces() {
@@ -241,7 +241,9 @@ public class ChessMatch {
 		}
 		return (ChessPiece) captured;
 	}
-
+	
+	
+	
 	public boolean[][] movablePieces() {
 		boolean[][] movP = new boolean[board.getColumns()][board.getRows()];
 		int aux = 0;
@@ -259,8 +261,11 @@ public class ChessMatch {
 			}
 		}
 
-		if (aux == 0) {
+		if (aux == 0 && !this.check) {
 			throw new ChessException("No more possible moves, Draw by stalemate");
+		}
+		else if(aux == 0 && this.check) {
+			this.checkMate=true;
 		}
 
 		return movP;

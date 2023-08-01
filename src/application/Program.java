@@ -76,6 +76,8 @@ public class Program {
 			
 
 		}
+		System.out.println("Check Mate!!, the "+chessMatch.getCurrentPlayer()+" pieces lost the game");
+		
 		sc.close();
 	}
 	private static boolean positionCondition(ChessMatch chessMatch, ChessPosition position, boolean[][]greenTiles) {
