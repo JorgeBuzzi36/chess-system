@@ -70,18 +70,19 @@ public abstract class ChessPiece extends Piece {
 			}
 			//Checks if the piece being shielded is the King
 			if (getBoard().positionExists(collumn, row) && isThereMyKing(new Position(collumn, row))) {
-				
+				//Reverse the direction from the king towards a potential attacking piece
 				dCollumn *= -1;
 				dRow *= -1;
 				collumn += dCollumn;
 				row += dRow;
-			//Checking all the legal moves that will keep the king save 	
+			//Validate all squares between the queen and the piece being tested	
 				while (getBoard().positionExists(collumn, row) && !getBoard().isTherePiece(new Position(collumn, row))) {
 
 					onlyLegalMoves[collumn][row] = true;
 					collumn += dCollumn;
 					row += dRow;
 				}
+				//Goes to the opposite direction from the king, and look for a potential enemy piece threat to the king
 				collumn = getPosition().getCollumn() + dCollumn;
 				row = getPosition().getRow() + dRow;
 				while (getBoard().positionExists(collumn, row) && !getBoard().isTherePiece(new Position(collumn, row))) {
@@ -92,7 +93,8 @@ public abstract class ChessPiece extends Piece {
 				}
 				if (getBoard().positionExists(collumn, row) && isThereOpponentPiece(new Position(collumn, row))) {
 					onlyLegalMoves[collumn][row] = true;
-					//Checa se ha tretas
+					//dCollumn*dRow is checking if i am on a diagonal or a straight line
+					// This will check if the enemy piece found is pining the current piece
 					if(checkThreats(dCollumn*dRow,getBoard().piece(new Position(collumn,row)).toString())) {
 					return onlyLegalMoves;
 					}

@@ -16,9 +16,10 @@ public class ChessMove {
 		this.chessMatch=chessMatch;
 	}
 	
-	private boolean pieceCanMoveThere(ChessPiece matchPosition, ChessPosition chessPosition) {
-		boolean[][] possibleMoves = matchPosition.possibleMoves();
+	private boolean pieceCanMoveThere(ChessPosition matchPosition, ChessPosition chessPosition) {
 		
+		boolean[][] possibleMoves = chessMatch.matchPossibleMoves(matchPosition);
+	
 		for(int i=0;i<chessMatch.getBoard().getColumns();i++) {
 			for(int j =0 ; j<chessMatch.getBoard().getRows();j++) {
 				
@@ -55,7 +56,7 @@ public class ChessMove {
 				
 				
 				if(matchPosition[i][j]!=null&&chessPieceName.equals(matchPosition[i][j].toString())&&matchPosition[i][j].getColor().equals(chessMatch.getCurrentPlayer())
-						&& pieceCanMoveThere(matchPosition[i][j], targetChessPosition)) {
+						&& pieceCanMoveThere(this.convertToChessPosition(matchPosition[i][j]), targetChessPosition)) {
 					sourceChessPosition = sourceChessPosition.fromPosition(i,j);			
 					piecesThatCanMoveToTheTargetPosition.add(sourceChessPosition);
 				}
@@ -83,7 +84,11 @@ public class ChessMove {
 		}
 		
 	}
-	
+	private ChessPosition convertToChessPosition(ChessPiece p) {
+		ChessPosition chessPieceMatchPosition = new ChessPosition();
+		chessPieceMatchPosition = chessPieceMatchPosition.fromPosition(p.getPosition());
+		return chessPieceMatchPosition;
+	}
 	
 	private ChessPosition thereIsAnotherPossibleMove(Set<ChessPosition> m) {
 		Scanner sc2 = new Scanner(System.in);

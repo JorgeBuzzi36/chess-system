@@ -21,6 +21,7 @@ public class Program {
 		char optionHighlitedMoves = sc.next().charAt(0);
 		sc.nextLine();
 		while (!chessMatch.isCheckMate()) {
+			chessMatch.isCheck();
 			greenTiles = chessMatch.movablePieces();
 			if (optionHighlitedPieces == 'y') {
 				UI.printBoard(chessMatch.getPieces(), greenTiles);

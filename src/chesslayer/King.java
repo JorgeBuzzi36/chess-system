@@ -36,8 +36,7 @@ public class King extends ChessPiece {
 
 			if (getBoard().positionExists(collumn, row) && !getBoard().isTherePiece(new Position(collumn, row))) {
 				pMov[collumn][row] = true;
-				collumn += dCollumn;
-				row += dRow;
+				
 			}
 
 			// Checks if there is an opponent
@@ -77,12 +76,29 @@ public class King extends ChessPiece {
 				&& getBoard().piece(6, this.position.getRow()) == null;
 				
 	}
+	private boolean[][] scanForThreats(){
+		boolean[][] threats = new boolean[getBoard().getColumns()][getBoard().getRows()];
+		
+		
+		return threats;
+}
+	
+	public boolean canIBeHelped(ChessPiece p) {
+		
+		
+		return true;
+	}
 	
 	public boolean[][] legalMoves(boolean [][] possibleMoves){
 		
-		
+		return possibleMoves;
+	}
+
+	public boolean[][] helpMe(boolean[][] possibleMoves, int check) {
+		// Assumir que um rei sendo atacado por 2 peças ao mesmo tempo nao pode ser defendido por outra peça e precisa se mover
 		
 		return possibleMoves;
+		
 	}
 	
 	

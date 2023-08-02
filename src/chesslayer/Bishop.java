@@ -44,7 +44,12 @@ public class Bishop extends ChessPiece {
                 pMov[collumn][row] = true;
             }
         }
-        boolean[][] onlyLegalMoves = this.checkLegalMoves();
+        
+		return pMov;
+	}
+	
+	public boolean[][] filterLegalMoves(boolean[][] pMov){
+		boolean[][] onlyLegalMoves = this.checkLegalMoves();
 
 		for (int i = 0; i < getBoard().getColumns(); i++) {
 			for (int j = 0; j < getBoard().getRows(); j++) {
@@ -56,9 +61,8 @@ public class Bishop extends ChessPiece {
 
 			}
 		}
-		return pMov;
+		return onlyLegalMoves;
 	}
-
 	
 }
 
