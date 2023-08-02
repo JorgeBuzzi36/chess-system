@@ -34,7 +34,7 @@ public abstract class Piece {
 	public boolean isThereAnyPossibleMoves() {
 		
 		boolean[][]pMoves = possibleMoves();
-		
+		pMoves = filterLegalMoves(pMoves);
 		
 		for (int i=0;i<board.getColumns();i++) {
 			for(int j=0;j<board.getRows();j++) {
@@ -50,5 +50,8 @@ public abstract class Piece {
 	}
 
 	public abstract Color getColor();
+
+
+	public abstract boolean[][] filterLegalMoves(boolean[][] pMov);
 	
 }

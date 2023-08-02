@@ -65,10 +65,10 @@ public class ChessMatch {
 
 	private void startMatch() {
 		// Generate white pieces
-		// for (int i = 0; i < board.getColumns(); i++) {
-		// board.placePiece(new Pawn(this.board, Color.WHITE,this),
-		// new ChessPosition((char) ((int) 'a' + i), 2).toPosition());
-		// }
+	//	for (int i = 0; i < board.getColumns(); i++) {
+	//	 board.placePiece(new Pawn(this.board, Color.WHITE,this),
+	//	 new ChessPosition((char) ((int) 'a' + i), 2).toPosition());
+	//	 }
 
 		// board.placePiece(new Rook(this.board, Color.WHITE), new ChessPosition('a',
 		// 1).toPosition());
@@ -102,10 +102,10 @@ public class ChessMatch {
 		board.placePiece(new Queen(this.board, Color.BLACK), new ChessPosition('d', 8).toPosition());
 
 		// test
-		board.placePiece(new Rook(this.board, Color.WHITE), new ChessPosition('c', 1).toPosition());
-		board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('a', 1).toPosition());
-		//board.placePiece(new Bishop(this.board, Color.BLACK), new ChessPosition('g', 3).toPosition());
-		board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('e', 5).toPosition());
+	//	board.placePiece(new Rook(this.board, Color.WHITE), new ChessPosition('c', 1).toPosition());
+	//	board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('a', 1).toPosition());
+		board.placePiece(new Bishop(this.board, Color.BLACK), new ChessPosition('g', 4).toPosition());
+		board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('f', 4).toPosition());
 	}
 
 	public ChessPiece[][] getPieces() {
@@ -151,13 +151,17 @@ public class ChessMatch {
 	
 	
 	public boolean[][] matchPossibleMoves(ChessPosition source) {
-		boolean[][] possibleMoves = new boolean[this.board.getColumns()][this.board.getRows()];
-		possibleMoves = this.board.piece(source.toPosition()).possibleMoves();
+		boolean[][] pMov = new boolean[this.board.getColumns()][this.board.getRows()];
+		pMov = this.board.piece(source.toPosition()).possibleMoves();
+		if(this.board.piece(source.toPosition()).getColor().equals(this.currentPlayer)) {
+			pMov = this.board.piece(source.toPosition()).filterLegalMoves(pMov);
+		}
+		
 		if (check>0) {
 			King kingUnderAttack = (King) this.board.piece(this.currentKingPosition.toPosition());
-			kingUnderAttack.helpMe(possibleMoves,check);
+			kingUnderAttack.helpMe(pMov,check);
 		}
-		return possibleMoves;
+		return pMov;
 	}
 
 	private void pawnHandler(ChessPiece p, ChessPosition target) {

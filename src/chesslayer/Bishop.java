@@ -61,8 +61,8 @@ public class Bishop extends ChessPiece {
 
 			}
 		}
-		return onlyLegalMoves;
+		return pMov;
 	}
-	
+
 }
 

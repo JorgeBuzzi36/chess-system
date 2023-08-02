@@ -5,7 +5,7 @@ import boardlayer.Position;
 
 public class King extends ChessPiece {
 	private ChessMatch chessMatch;
-
+	private boolean[][] aSquares = new boolean[getBoard().getColumns()][getBoard().getRows()];
 	public King(Board board, Color color, ChessMatch chessMatch) {
 		super(board, color);
 		this.chessMatch = chessMatch;
@@ -20,7 +20,9 @@ public class King extends ChessPiece {
 	@Override
 	public boolean[][] possibleMoves() {
 		boolean[][] pMov = new boolean[getBoard().getColumns()][getBoard().getRows()];
-
+		if(chessMatch.getCurrentPlayer()==this.getColor()) {
+			scanForAttackedSquares();
+		}	
 		// Directions: up, down, left, right and Diagonals: up-right, up-left,
 		// down-right, down-left
 		int[][] directions = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 }, { 1, 1 }, { -1, 1 }, { 1, -1 }, { -1, -1 } };
@@ -59,7 +61,8 @@ public class King extends ChessPiece {
 			chessMatch.setCastleAvaliable(true);
 			
 		}
-
+		
+		pMov=filterLegalMoves(pMov);
 		return pMov;
 	}
 	
@@ -76,23 +79,46 @@ public class King extends ChessPiece {
 				&& getBoard().piece(6, this.position.getRow()) == null;
 				
 	}
-	private boolean[][] scanForThreats(){
-		boolean[][] threats = new boolean[getBoard().getColumns()][getBoard().getRows()];
+	private void mergeAttackedSquares(boolean[][] opponentPMov){
 		
-		
-		return threats;
+		for(int i=0; i<getBoard().getColumns();i++) {
+			for(int j=0;j<getBoard().getRows();j++) {
+				if(opponentPMov[i][j]) {
+					this.aSquares[i][j]=true;
+					
+				}
+				
+			}
+		}
+	}
+	
+	private void scanForAttackedSquares(){
+		for(int i=0; i<getBoard().getColumns();i++) {
+			for(int j=0;j<getBoard().getRows();j++) {
+				if(getBoard().piece(i,j)!=null&&getBoard().piece(i,j).getColor()!=this.getColor()
+						&& getBoard().piece(i,j).toString()!="K") {
+				mergeAttackedSquares(getBoard().piece(i,j).possibleMoves());
+				
+				}
+			}
+		}
 }
+	public boolean[][] filterLegalMoves(boolean[][] pMov){
+		for(int i=0; i<getBoard().getColumns();i++) {
+			for(int j=0;j<getBoard().getRows();j++) {
+				if(this.aSquares[i][j]) {
+					pMov[i][j]=false;				}
+				
+			}
+		}
+		return pMov;
+	}
 	
 	public boolean canIBeHelped(ChessPiece p) {
-		
-		
+
 		return true;
 	}
 	
-	public boolean[][] legalMoves(boolean [][] possibleMoves){
-		
-		return possibleMoves;
-	}
 
 	public boolean[][] helpMe(boolean[][] possibleMoves, int check) {
 		// Assumir que um rei sendo atacado por 2 peças ao mesmo tempo nao pode ser defendido por outra peça e precisa se mover

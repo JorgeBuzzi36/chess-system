@@ -47,6 +47,10 @@ public class Queen extends ChessPiece {
 				pMov[collumn][row] = true;
 			}
 		}
+		return pMov;
+	}
+	
+	public boolean[][] filterLegalMoves(boolean[][] pMov){
 		boolean[][] onlyLegalMoves = this.checkLegalMoves();
 
 		for (int i = 0; i < getBoard().getColumns(); i++) {
