@@ -65,10 +65,10 @@ public class ChessMatch {
 
 	private void startMatch() {
 		// Generate white pieces
-	//	for (int i = 0; i < board.getColumns(); i++) {
-	//	 board.placePiece(new Pawn(this.board, Color.WHITE,this),
-	//	 new ChessPosition((char) ((int) 'a' + i), 2).toPosition());
-	//	 }
+		// for (int i = 0; i < board.getColumns(); i++) {
+		// board.placePiece(new Pawn(this.board, Color.WHITE,this),
+		// new ChessPosition((char) ((int) 'a' + i), 2).toPosition());
+		// }
 
 		// board.placePiece(new Rook(this.board, Color.WHITE), new ChessPosition('a',
 		// 1).toPosition());
@@ -102,10 +102,19 @@ public class ChessMatch {
 		board.placePiece(new Queen(this.board, Color.BLACK), new ChessPosition('d', 8).toPosition());
 
 		// test
-	//	board.placePiece(new Rook(this.board, Color.WHITE), new ChessPosition('c', 1).toPosition());
-	//	board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('a', 1).toPosition());
+		// board.placePiece(new Rook(this.board, Color.WHITE), new ChessPosition('c',
+		// 1).toPosition());
+		// board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('a',
+		// 1).toPosition());
 		board.placePiece(new Bishop(this.board, Color.BLACK), new ChessPosition('g', 4).toPosition());
-		board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('f', 4).toPosition());
+		board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('e', 6).toPosition());
+		board.placePiece(new Pawn(this.board, Color.WHITE, this), new ChessPosition('d', 1).toPosition());
+		board.placePiece(new Pawn(this.board, Color.WHITE, this), new ChessPosition('d', 2).toPosition());
+		board.placePiece(new Pawn(this.board, Color.WHITE, this), new ChessPosition('d', 3).toPosition());
+		board.placePiece(new Pawn(this.board, Color.WHITE, this), new ChessPosition('f', 1).toPosition());
+		board.placePiece(new Pawn(this.board, Color.WHITE, this), new ChessPosition('f', 2).toPosition());
+		board.placePiece(new Bishop(this.board, Color.WHITE), new ChessPosition('f', 3).toPosition());		
+		board.placePiece(new Knight(this.board, Color.WHITE), new ChessPosition('d', 4).toPosition());
 	}
 
 	public ChessPiece[][] getPieces() {
@@ -143,23 +152,21 @@ public class ChessMatch {
 				}
 			}
 		}
-		if(check>0) {
-			System.out.println("Check! "+check);
+		if (check > 0) {
+			System.out.println("Check! " + check);
 		}
 	}
-	
-	
-	
+
 	public boolean[][] matchPossibleMoves(ChessPosition source) {
 		boolean[][] pMov = new boolean[this.board.getColumns()][this.board.getRows()];
 		pMov = this.board.piece(source.toPosition()).possibleMoves();
-		if(this.board.piece(source.toPosition()).getColor().equals(this.currentPlayer)) {
+		if (this.board.piece(source.toPosition()).getColor().equals(this.currentPlayer)) {
 			pMov = this.board.piece(source.toPosition()).filterLegalMoves(pMov);
 		}
-		
-		if (check>0) {
+
+		if (check != 0 && getBoard().piece(source.toPosition()).toString() != "K") {
 			King kingUnderAttack = (King) this.board.piece(this.currentKingPosition.toPosition());
-			kingUnderAttack.helpMe(pMov,check);
+			pMov = kingUnderAttack.helpMe(pMov);
 		}
 		return pMov;
 	}
@@ -294,27 +301,49 @@ public class ChessMatch {
 	public boolean[][] movablePieces() {
 		boolean[][] movP = new boolean[board.getColumns()][board.getRows()];
 		int aux = 0;
-		if (this.check>1) {
-			movP[this.currentKingPosition.toPosition().getCollumn()][this.currentKingPosition.toPosition().getRow()] =true;
-			aux++;
-		}
+		// If two pieces are attacking the king, he will be the only one that can move, if he can't, its check mate
+		if (this.check > 1) {
+			movP[this.currentKingPosition.toPosition().getCollumn()][this.currentKingPosition.toPosition()
+					.getRow()] = getBoard().piece(currentKingPosition.toPosition()).isThereAnyPossibleMoves();
+			if (movP[this.currentKingPosition.toPosition().getCollumn()][this.currentKingPosition.toPosition()
+					.getRow()]) {
+				aux++;
+			}
+		} 
+		
+		//Checks the pieces that can move
 		else {
-		for (int i = 0; i < board.getColumns(); i++) {
-			for (int j = 0; j < board.getRows(); j++) {
-				Piece piece = board.piece(i, j);
-				if (piece != null && piece.getColor() == currentPlayer) {
-					movP[i][j] = piece.isThereAnyPossibleMoves();
+			for (int i = 0; i < board.getColumns(); i++) {
+				for (int j = 0; j < board.getRows(); j++) {
+					Piece piece = board.piece(i, j);
+					if (piece != null && piece.getColor() == currentPlayer) {
+						movP[i][j] = piece.isThereAnyPossibleMoves();
 
-					if (movP[i][j]) {
-						aux++;
+						if (movP[i][j]) {
+							aux++;
+						}
 					}
 				}
 			}
 		}
+		// If the king is in check and being attacked by only one piece, this will verify all the pieces
+		// that have at least one move that will defend him
+		if (check == 1) {
+			King king = (King) getBoard().piece(this.currentKingPosition.toPosition());
+			for (int i = 0; i < board.getColumns(); i++) {
+				for (int j = 0; j < board.getRows(); j++) {
+					if (movP[i][j]) {
+						movP[i][j] = king.canIBeHelped((ChessPiece) getBoard().piece(i, j));
+					}
+
+				}
+
+			}
 		}
-		if (aux == 0 && this.check==0) {
+		//Checks for stalate mate or checkmate in case no possible moves were found
+		if (aux == 0 && this.check == 0) {
 			throw new ChessException("No more possible moves, Draw by stalemate");
-		} else if (aux == 0 && this.check>0) {
+		} else if (aux == 0 && this.check > 0) {
 			this.checkMate = true;
 		}
 

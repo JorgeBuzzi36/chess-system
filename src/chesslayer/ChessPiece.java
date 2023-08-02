@@ -108,8 +108,8 @@ public abstract class ChessPiece extends Piece {
 	}
 
 	
-
-	private boolean checkThreats(int direction, String string) {
+	
+	public boolean checkThreats(int direction, String string) {
 		// Returns true if its a Queen or a Bishop on a diagonal
 		if(direction!=0 && (string.equals("B")||string.equals("Q"))) {
 			return true;
