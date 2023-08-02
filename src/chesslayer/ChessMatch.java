@@ -106,10 +106,11 @@ public class ChessMatch {
 		// 1).toPosition());
 		// board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('a',
 		// 1).toPosition());
+		board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('a', 2).toPosition());
 		board.placePiece(new Bishop(this.board, Color.BLACK), new ChessPosition('g', 4).toPosition());
 		board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('e', 6).toPosition());
 		board.placePiece(new Pawn(this.board, Color.WHITE, this), new ChessPosition('d', 1).toPosition());
-		board.placePiece(new Pawn(this.board, Color.WHITE, this), new ChessPosition('d', 2).toPosition());
+		board.placePiece(new Pawn(this.board, Color.BLACK, this), new ChessPosition('d', 2).toPosition());
 		board.placePiece(new Pawn(this.board, Color.WHITE, this), new ChessPosition('d', 3).toPosition());
 		board.placePiece(new Pawn(this.board, Color.WHITE, this), new ChessPosition('f', 1).toPosition());
 		board.placePiece(new Pawn(this.board, Color.WHITE, this), new ChessPosition('f', 2).toPosition());

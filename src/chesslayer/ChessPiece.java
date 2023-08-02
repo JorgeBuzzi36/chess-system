@@ -95,7 +95,7 @@ public abstract class ChessPiece extends Piece {
 					onlyLegalMoves[collumn][row] = true;
 					//dCollumn*dRow is checking if i am on a diagonal or a straight line
 					// This will check if the enemy piece found is pining the current piece
-					if(checkThreats(dCollumn*dRow,getBoard().piece(new Position(collumn,row)).toString())) {
+					if(canMoveInThisDirection(dCollumn*dRow,getBoard().piece(new Position(collumn,row)).toString())) {
 					return onlyLegalMoves;
 					}
 				} else {
@@ -108,8 +108,57 @@ public abstract class ChessPiece extends Piece {
 	}
 
 	
-	
-	public boolean checkThreats(int direction, String string) {
+	public boolean amIBeingProtected(ChessPiece piece) {
+		boolean[][] attackRoute = new boolean[getBoard().getColumns()][getBoard().getRows()];
+
+		// Directions: up, down, left, right and Diagonals: up-right, up-left,
+		// down-right, down-left
+		int[][] directions = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 }, { 1, 1 }, { -1, 1 }, { 1, -1 }, { -1, -1 } };
+
+		for (int[] direction : directions) {
+
+			int dCollumn = direction[0];
+			int dRow = direction[1];
+			int collumn = getPosition().getCollumn() + dCollumn;
+			int row = getPosition().getRow() + dRow;
+
+			// Searching for a piece on a direction
+			while (getBoard().positionExists(collumn, row) && !getBoard().isTherePiece(new Position(collumn, row))) {
+				collumn += dCollumn;
+				row += dRow;
+			}
+			// Sees if the piece is from the opponent
+
+			if (getBoard().positionExists(collumn, row) && !isThereOpponentPiece(new Position(collumn, row))) {
+				// chnge the name of the canMoveInThisDirection function
+				if (canMoveInThisDirection(dCollumn * dRow, getBoard().piece(new Position(collumn, row)).toString())) {
+					return true;
+					
+					}
+
+				}
+		}
+		int[][] horseDirections = { { 1, 2 }, { 1, -2 }, { -1, 2 }, { -1, -2 }, { 2, 1 }, { 2, -1 }, { -2, -1 }, { -2, 1 } };
+
+		for (int[] direction :horseDirections) {
+
+			int dCollumn = direction[0];
+			int dRow = direction[1];
+			int collumn = getPosition().getCollumn() + dCollumn;
+			int row = getPosition().getRow() + dRow;
+
+			if (getBoard().positionExists(collumn, row)
+					&& (isThereOpponentPiece(new Position(collumn, row)) || !getBoard().isTherePiece(collumn, row))
+					&&getBoard().piece(collumn,row)!=null&&getBoard().piece(collumn,row).toString().equals("H")) {
+				return true;
+			}
+		}
+		
+		
+
+		return false;
+	}
+	public boolean canMoveInThisDirection(int direction, String string) {
 		// Returns true if its a Queen or a Bishop on a diagonal
 		if(direction!=0 && (string.equals("B")||string.equals("Q"))) {
 			return true;

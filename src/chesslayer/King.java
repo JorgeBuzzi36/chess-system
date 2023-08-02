@@ -70,7 +70,8 @@ public class King extends ChessPiece {
 
 	private boolean isThatPieceBeingProtected(int collumn,int row) {
 		
-		return false;
+		ChessPiece p =(ChessPiece) getBoard().piece(collumn,row);
+		return p.amIBeingProtected(p);
 	}
 
 	private boolean conditionLongCastle() {
@@ -147,7 +148,7 @@ public class King extends ChessPiece {
 			// Sees if the piece is from the opponent
 
 			if (getBoard().positionExists(collumn, row) && isThereOpponentPiece(new Position(collumn, row))) {
-				if (checkThreats(dCollumn * dRow, getBoard().piece(new Position(collumn, row)).toString())) {
+				if (canMoveInThisDirection(dCollumn * dRow, getBoard().piece(new Position(collumn, row)).toString())) {
 					attackRoute[collumn][row] = true;
 					dCollumn *= -1;
 					dRow *= -1;
