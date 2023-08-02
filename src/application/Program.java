@@ -23,6 +23,9 @@ public class Program {
 		while (!chessMatch.isCheckMate()) {
 			chessMatch.isCheck();
 			greenTiles = chessMatch.movablePieces();
+			if(chessMatch.isCheckMate()){
+				continue;
+			}
 			if (optionHighlitedPieces == 'y') {
 				UI.printBoard(chessMatch.getPieces(), greenTiles);
 			}

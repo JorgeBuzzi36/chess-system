@@ -113,8 +113,8 @@ public class ChessMatch {
 		board.placePiece(new Pawn(this.board, Color.WHITE, this), new ChessPosition('d', 3).toPosition());
 		board.placePiece(new Pawn(this.board, Color.WHITE, this), new ChessPosition('f', 1).toPosition());
 		board.placePiece(new Pawn(this.board, Color.WHITE, this), new ChessPosition('f', 2).toPosition());
-		board.placePiece(new Bishop(this.board, Color.WHITE), new ChessPosition('f', 3).toPosition());		
-		board.placePiece(new Knight(this.board, Color.WHITE), new ChessPosition('d', 4).toPosition());
+	//	board.placePiece(new Bishop(this.board, Color.WHITE), new ChessPosition('f', 3).toPosition());		
+	//	board.placePiece(new Knight(this.board, Color.WHITE), new ChessPosition('d', 4).toPosition());
 	}
 
 	public ChessPiece[][] getPieces() {
@@ -307,6 +307,7 @@ public class ChessMatch {
 					.getRow()] = getBoard().piece(currentKingPosition.toPosition()).isThereAnyPossibleMoves();
 			if (movP[this.currentKingPosition.toPosition().getCollumn()][this.currentKingPosition.toPosition()
 					.getRow()]) {
+				
 				aux++;
 			}
 		} 
@@ -334,12 +335,16 @@ public class ChessMatch {
 				for (int j = 0; j < board.getRows(); j++) {
 					if (movP[i][j]) {
 						movP[i][j] = king.canIBeHelped((ChessPiece) getBoard().piece(i, j));
+						if(!movP[i][j]) {
+							aux--;
+						}
 					}
-
+					
 				}
 
 			}
 		}
+		System.out.println("Aux ta em "+aux);
 		//Checks for stalate mate or checkmate in case no possible moves were found
 		if (aux == 0 && this.check == 0) {
 			throw new ChessException("No more possible moves, Draw by stalemate");
