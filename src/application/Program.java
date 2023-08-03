@@ -17,8 +17,14 @@ public class Program {
 		UI.printBoard(chessMatch.getPieces(), greenTiles);
 		System.out.println("Do you want to have the possible movable pieces highlighted?y/n");
 		char optionHighlitedPieces = sc.next().charAt(0);
-		System.out.println("Do you want to have the possible moves highlighted?y/n");
-		char optionHighlitedMoves = sc.next().charAt(0);
+		System.out.println("Do you want the short or long notation?(s/any other key) short : pe4, long: e2<Enter>e4");
+		char optionInputType = sc.next().charAt(0);
+		if(optionInputType=='s') {
+			System.out.println("You've choose the short notation");
+		}
+		else {
+			System.out.println("Default long notation");
+		}
 		sc.nextLine();
 		while (!chessMatch.isCheckMate()) {
 			chessMatch.isCheck();
@@ -29,14 +35,20 @@ public class Program {
 			if (optionHighlitedPieces == 'y') {
 				UI.printBoard(chessMatch.getPieces(), greenTiles);
 			}
+			switch(optionInputType) {
 			// Codigo para notação algebrica curta ( ex: pe4 ) 
 			
 				//Falta programação defensiva pra input errado
 				//Falta implementar lista com Log das jogadas efetuadas (opcional)
-			/*
+			
 			//-----------------------------------------------------
+			case 's':
 			System.out.println(chessMatch.getCurrentPlayer() + " to move:");
 			String chessMoveScan = sc.nextLine();
+			while(!checkShortInput(chessMoveScan)) {
+				System.out.println("Invalid input");
+				chessMoveScan = sc.nextLine();
+			}
 			ChessMove chessMove = new ChessMove (chessMoveScan,chessMatch);
 			ChessPosition[] move = chessMove.extractChessPosition();
 			
@@ -48,13 +60,14 @@ public class Program {
 			else {
 				System.out.println("Invaid chess move");
 			}
+			break;
 			//----------------------------------------------------------
-			 */
+			 
 			 
 			
 			// Codigo notaçao algebrica longa (ex: enter e2 then enter e4)
 			//------------------------------------------------
-			
+			default:
 			System.out.println(chessMatch.getCurrentPlayer() + " to move:");
 			ChessPosition sourcePosition = checkInput(sc);
 
@@ -63,10 +76,7 @@ public class Program {
 				sourcePosition = checkInput(sc);
 			}
 			greenTiles = chessMatch.matchPossibleMoves(sourcePosition);
-
-			if (optionHighlitedMoves == 'y') {
-				UI.printBoard(chessMatch.getPieces(), greenTiles);
-			}
+			UI.printBoard(chessMatch.getPieces(), greenTiles);
 			System.out.println("to:");
 			ChessPosition targetPosition = checkInput(sc);
 			while (targetPosition==null||positionCondition(chessMatch,targetPosition,greenTiles)) {
@@ -75,10 +85,11 @@ public class Program {
 			}
 			chessMatch.performChessMove(sourcePosition, targetPosition);
 			
-			
+			break;
 			//-----------------------------------------------------------
 			
 
+		}
 		}
 		System.out.println("Check Mate!!, the "+chessMatch.getCurrentPlayer()+" pieces lost the game");
 		
@@ -89,7 +100,40 @@ public class Program {
 				||!greenTiles[position.toPosition().getCollumn()][position.toPosition().getRow()];
 	
 	}
-
+	private static boolean checkShortInput(String input) {
+		
+		if(input.length()<3) {
+			return false;
+		}
+		Set<String> checkPieceName = Set.of("q","Q","K","k","P","p","B","b","H","h","R","r");
+		Set<String> checkColumnName = Set.of("a","b","c","d","e","f","g","h");
+		Set<String> checkRowName = Set.of("1","2","3","4","5","6","7","8");
+		boolean checkedPieceName=false;
+		boolean checkedColumnName=false;
+		boolean checkedRowName=false;
+		
+		
+		for(String p : checkPieceName) {
+			String inputAt0=input.substring(0, 1);
+			if( inputAt0.equals(p))
+				checkedPieceName=true;
+		}
+		for(String p : checkColumnName) {
+			String inputAt1=input.substring(1, 2);
+			if( inputAt1.equals(p)) {
+				checkedColumnName=true;
+			}
+		}
+		for(String p : checkRowName) {
+			String inputAt2=input.substring(2, 3);
+			if(inputAt2.equals(p)) {
+				checkedRowName=true;
+			}
+		}
+		return checkedPieceName&&checkedColumnName&&checkedRowName&&input.length()==3;
+		
+		
+	}
 	private static ChessPosition checkInput(Scanner sc) {
 
 		try {
