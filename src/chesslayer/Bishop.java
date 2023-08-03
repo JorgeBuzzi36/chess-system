@@ -47,7 +47,7 @@ public class Bishop extends ChessPiece {
         
 		return pMov;
 	}
-	
+	// This function finds the intersection between two boolean[][],here its used to exclude the illegal moves from the possible moves set
 	public boolean[][] filterLegalMoves(boolean[][] pMov){
 		boolean[][] onlyLegalMoves = this.checkLegalMoves();
 

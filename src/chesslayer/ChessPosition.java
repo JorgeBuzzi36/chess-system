@@ -26,7 +26,7 @@ public class ChessPosition {
 	public int getRow() {
 		return row;
 	}
-
+	//Very stupid way to convert an char from a to h to 0 to 7
 	public Position toPosition() {
 		
 		return new Position(((int)this.column-97),row-1);

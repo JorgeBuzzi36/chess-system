@@ -38,7 +38,7 @@ public class Program {
 			switch(optionInputType) {
 			// Codigo para notação algebrica curta ( ex: pe4 ) 
 			
-				//Falta programação defensiva pra input errado
+				//IMPORTANTE : LOGICA DE PEOES PRA IMPLEMENAÇOES QUE USAM RAYCASTING
 				//Falta implementar lista com Log das jogadas efetuadas (opcional)
 			
 			//-----------------------------------------------------

@@ -37,21 +37,25 @@ public class King extends ChessPiece {
 
 			// Go a single time towards the direction
 
+
 			if (getBoard().positionExists(collumn, row) && !getBoard().isTherePiece(new Position(collumn, row))) {
 				pMov[collumn][row] = true;
 
 			}
 
 			// Checks if there is an opponent
-
+			
 			if (getBoard().positionExists(collumn, row) && isThereOpponentPiece(new Position(collumn, row))) {
-				if(!isThatPieceBeingProtected(collumn,row)) {
+				if (!isThatPieceBeingProtected(collumn, row)) {
 					pMov[collumn][row] = true;
 				}
 			}
+			if(this.isAPawnGuardingThisSquare(collumn, row)) {
+				pMov[collumn][row]=false;
+			}
 		}
 		// castle logic
-
+		
 		if (this.getMoveCount() == 0 && this.conditionLongCastle()) {
 			pMov[2][this.position.getRow()] = true;
 			chessMatch.setCastleAvaliable(true);
@@ -68,9 +72,34 @@ public class King extends ChessPiece {
 		return pMov;
 	}
 
-	private boolean isThatPieceBeingProtected(int collumn,int row) {
+	private boolean isAPawnGuardingThisSquare(int column, int row) {
+		if (this.getColor() == Color.WHITE) {
+
+			if ((getBoard().positionExists(column+1, row+1)&&getBoard().piece(column + 1, row + 1) != null
+					&& getBoard().piece(column + 1, row + 1).toString().equals("P")
+					&& getBoard().piece(column + 1, row + 1).getColor() == Color.BLACK)
+					|| (getBoard().positionExists(column-1, row+1)&&(getBoard().piece(column - 1, row + 1) != null
+							&& getBoard().piece(column - 1, row + 1).toString().equals("P"))
+							&& getBoard().piece(column - 1, row + 1).getColor() == Color.BLACK)) {
+				return true;
+			}
+			} else if (this.getColor() == Color.BLACK) {
+				if ((getBoard().positionExists(column+1, row-1)&&getBoard().piece(column + 1, row - 1) != null
+						&& getBoard().piece(column + 1, row -1).toString().equals("P")
+						&& getBoard().piece(column + 1, row -1).getColor() == Color.WHITE)
+						|| (getBoard().positionExists(column-1, row-1)&&getBoard().piece(column - 1, row -1) != null
+								&& getBoard().piece(column - 1, row -1).toString().equals("P"))
+								&& getBoard().piece(column - 1, row -1).getColor() == Color.WHITE) {
+					return true;
+				}
+			}
+			return false;
 		
-		ChessPiece p =(ChessPiece) getBoard().piece(collumn,row);
+	}
+
+	private boolean isThatPieceBeingProtected(int collumn, int row) {
+
+		ChessPiece p = (ChessPiece) getBoard().piece(collumn, row);
 		return p.amIBeingProtected(p);
 	}
 
@@ -164,9 +193,10 @@ public class King extends ChessPiece {
 				}
 			}
 		}
-		int[][] horseDirections = { { 1, 2 }, { 1, -2 }, { -1, 2 }, { -1, -2 }, { 2, 1 }, { 2, -1 }, { -2, -1 }, { -2, 1 } };
+		int[][] horseDirections = { { 1, 2 }, { 1, -2 }, { -1, 2 }, { -1, -2 }, { 2, 1 }, { 2, -1 }, { -2, -1 },
+				{ -2, 1 } };
 
-		for (int[] direction :horseDirections) {
+		for (int[] direction : horseDirections) {
 
 			int dCollumn = direction[0];
 			int dRow = direction[1];
@@ -175,11 +205,12 @@ public class King extends ChessPiece {
 
 			if (getBoard().positionExists(collumn, row)
 					&& (isThereOpponentPiece(new Position(collumn, row)) || !getBoard().isTherePiece(collumn, row))
-					&&getBoard().piece(collumn,row)!=null&&getBoard().piece(collumn,row).toString().equals("H")) {
+					&& getBoard().piece(collumn, row) != null
+					&& getBoard().piece(collumn, row).toString().equals("H")) {
 				attackRoute[collumn][row] = true;
 			}
 		}
-		
+
 		return attackRoute;
 
 	}
@@ -189,7 +220,7 @@ public class King extends ChessPiece {
 		boolean[][] attackRoute = this.whereIsTheAttackCommingFrom();
 		for (int i = 0; i < getBoard().getColumns(); i++) {
 			for (int j = 0; j < getBoard().getRows(); j++) {
-				if(attackRoute[i][j]&&canBeDefended[i][j]) {
+				if (attackRoute[i][j] && canBeDefended[i][j]) {
 					return true;
 				}
 			}
@@ -199,15 +230,14 @@ public class King extends ChessPiece {
 	}
 
 	public boolean[][] helpMe(boolean[][] pMov) {
-		
+
 		boolean[][] attackRoute = this.whereIsTheAttackCommingFrom();
 		for (int i = 0; i < getBoard().getColumns(); i++) {
 			for (int j = 0; j < getBoard().getRows(); j++) {
-				if(pMov[i][j]&&attackRoute[i][j]) {
-					pMov[i][j]=true;
-				}
-				else {
-					pMov[i][j]=false;
+				if (pMov[i][j] && attackRoute[i][j]) {
+					pMov[i][j] = true;
+				} else {
+					pMov[i][j] = false;
 				}
 			}
 		}

@@ -65,26 +65,26 @@ public class ChessMatch {
 
 	private void startMatch() {
 		// Generate white pieces
-		 for (int i = 0; i < board.getColumns(); i++) {
-		 board.placePiece(new Pawn(this.board, Color.WHITE,this),
-		 new ChessPosition((char) ((int) 'a' + i), 2).toPosition());
-		}
+	//	 for (int i = 0; i < board.getColumns(); i++) {
+	//	 board.placePiece(new Pawn(this.board, Color.WHITE,this),
+	//	 new ChessPosition((char) ((int) 'a' + i), 2).toPosition());
+	//	}
 
-		 board.placePiece(new Rook(this.board, Color.WHITE), new ChessPosition('a',
-		 1).toPosition());
-		 board.placePiece(new Rook(this.board, Color.WHITE), new ChessPosition('h',
-		 1).toPosition());
-		 board.placePiece(new Knight(this.board, Color.WHITE), new ChessPosition('b',
-		 1).toPosition());
-		 board.placePiece(new Knight(this.board, Color.WHITE), new ChessPosition('g',
-		 1).toPosition());
-		 board.placePiece(new Bishop(this.board, Color.WHITE), new ChessPosition('c',
-		 1).toPosition());
-		 board.placePiece(new Bishop(this.board, Color.WHITE), new ChessPosition('f',
-		 1).toPosition());
+	//	 board.placePiece(new Rook(this.board, Color.WHITE), new ChessPosition('a',
+	//	 1).toPosition());
+	//	 board.placePiece(new Rook(this.board, Color.WHITE), new ChessPosition('h',
+	//	 1).toPosition());
+	//	 board.placePiece(new Knight(this.board, Color.WHITE), new ChessPosition('b',
+	//	 1).toPosition());
+	//	 board.placePiece(new Knight(this.board, Color.WHITE), new ChessPosition('g',
+	//	 1).toPosition());
+	//	 board.placePiece(new Bishop(this.board, Color.WHITE), new ChessPosition('c',
+	//	 1).toPosition());
+	//	 board.placePiece(new Bishop(this.board, Color.WHITE), new ChessPosition('f',
+	//	 1).toPosition());
 		 board.placePiece(new King(this.board, Color.WHITE, this), new ChessPosition('e', 1).toPosition());
-		 board.placePiece(new Queen(this.board, Color.WHITE), new ChessPosition('d',
-		 1).toPosition());
+	//	 board.placePiece(new Queen(this.board, Color.WHITE), new ChessPosition('d',
+	//	 1).toPosition());
 
 		// Gererate black pieces
 		for (int i = 0; i < board.getColumns(); i++) {
@@ -92,14 +92,14 @@ public class ChessMatch {
 					new ChessPosition((char) ((int) 'a' + i), 7).toPosition());
 		}
 
-		board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('a', 8).toPosition());
-		board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('h', 8).toPosition());
-		board.placePiece(new Knight(this.board, Color.BLACK), new ChessPosition('b', 8).toPosition());
-		board.placePiece(new Knight(this.board, Color.BLACK), new ChessPosition('g', 8).toPosition());
-		board.placePiece(new Bishop(this.board, Color.BLACK), new ChessPosition('c', 8).toPosition());
-		board.placePiece(new Bishop(this.board, Color.BLACK), new ChessPosition('f', 8).toPosition());
+		//board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('a', 8).toPosition());
+		//board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('h', 8).toPosition());
+		//board.placePiece(new Knight(this.board, Color.BLACK), new ChessPosition('b', 8).toPosition());
+		//board.placePiece(new Knight(this.board, Color.BLACK), new ChessPosition('g', 8).toPosition());
+		//board.placePiece(new Bishop(this.board, Color.BLACK), new ChessPosition('c', 8).toPosition());
+		//board.placePiece(new Bishop(this.board, Color.BLACK), new ChessPosition('f', 8).toPosition());
 		board.placePiece(new King(this.board, Color.BLACK, this), new ChessPosition('e', 8).toPosition());
-		board.placePiece(new Queen(this.board, Color.BLACK), new ChessPosition('d', 8).toPosition());
+		//board.placePiece(new Queen(this.board, Color.BLACK), new ChessPosition('d', 8).toPosition());
 
 		// test
 		// board.placePiece(new Rook(this.board, Color.WHITE), new ChessPosition('c',
@@ -109,13 +109,15 @@ public class ChessMatch {
 		//board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('a', 2).toPosition());
 		//board.placePiece(new Bishop(this.board, Color.BLACK), new ChessPosition('g', 4).toPosition());
 		//board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('e', 6).toPosition());
-		//board.placePiece(new Pawn(this.board, Color.WHITE, this), new ChessPosition('d', 1).toPosition());
-		//board.placePiece(new Pawn(this.board, Color.BLACK, this), new ChessPosition('d', 2).toPosition());
+		board.placePiece(new Pawn(this.board, Color.BLACK, this), new ChessPosition('c', 3).toPosition());
+		board.placePiece(new Pawn(this.board, Color.BLACK, this), new ChessPosition('f', 3).toPosition());
 		//board.placePiece(new Pawn(this.board, Color.WHITE, this), new ChessPosition('d', 3).toPosition());
 		//board.placePiece(new Pawn(this.board, Color.WHITE, this), new ChessPosition('f', 1).toPosition());
 		//board.placePiece(new Pawn(this.board, Color.WHITE, this), new ChessPosition('f', 2).toPosition());
 		//board.placePiece(new Bishop(this.board, Color.WHITE), new ChessPosition('f', 3).toPosition());		
-		//board.placePiece(new Knight(this.board, Color.WHITE), new ChessPosition('d', 4).toPosition());
+		board.placePiece(new Knight(this.board, Color.BLACK), new ChessPosition('d', 2).toPosition());
+		board.placePiece(new Pawn(this.board, Color.WHITE, this), new ChessPosition('e', 6).toPosition());
+		board.placePiece(new Knight(this.board, Color.WHITE), new ChessPosition('f', 7).toPosition());
 	}
 
 	public ChessPiece[][] getPieces() {

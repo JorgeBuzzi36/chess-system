@@ -46,6 +46,8 @@ public abstract class ChessPiece extends Piece {
 		return p !=null && p.getColor()!=this.color;
 	}
 	
+	//Checks the squares this ChessPiece can go towards without exposing the king to an attacking piece
+	//This only gives the legal moves, the move has to be Legal and possible
 	public boolean[][] checkLegalMoves() {
 
 		boolean[][] onlyLegalMoves = new boolean[getBoard().getColumns()][getBoard().getRows()];
@@ -107,10 +109,10 @@ public abstract class ChessPiece extends Piece {
 		return everyMoveIsLegal;
 	}
 
-	
+	//The king calls this function to check if a opponent piece that is in reach is being protected using ray casting
 	public boolean amIBeingProtected(ChessPiece piece) {
 		boolean[][] attackRoute = new boolean[getBoard().getColumns()][getBoard().getRows()];
-
+		
 		// Directions: up, down, left, right and Diagonals: up-right, up-left,
 		// down-right, down-left
 		int[][] directions = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 }, { 1, 1 }, { -1, 1 }, { 1, -1 }, { -1, -1 } };
@@ -138,6 +140,8 @@ public abstract class ChessPiece extends Piece {
 
 				}
 		}
+		
+		
 		int[][] horseDirections = { { 1, 2 }, { 1, -2 }, { -1, 2 }, { -1, -2 }, { 2, 1 }, { 2, -1 }, { -2, -1 }, { -2, 1 } };
 
 		for (int[] direction :horseDirections) {
@@ -158,6 +162,7 @@ public abstract class ChessPiece extends Piece {
 
 		return false;
 	}
+	
 	public boolean canMoveInThisDirection(int direction, String string) {
 		// Returns true if its a Queen or a Bishop on a diagonal
 		if(direction!=0 && (string.equals("B")||string.equals("Q"))) {
