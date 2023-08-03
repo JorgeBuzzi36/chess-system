@@ -21,8 +21,10 @@ public class King extends ChessPiece {
 	@Override
 	public boolean[][] possibleMoves() {
 		boolean[][] pMov = new boolean[getBoard().getColumns()][getBoard().getRows()];
-		// Loads all the squares being protected by the enemy piece, except for the pawns(they have special treatment)
-		// This if is to prevent a Stack overflow bug, figure out why, don't feel like explaining it
+		// Loads all the squares being protected by the enemy piece, except for the
+		// pawns(they have special treatment)
+		// This if is to prevent a Stack overflow bug, figure out why, don't feel like
+		// explaining it
 		if (chessMatch.getCurrentPlayer() == this.getColor()) {
 			scanForAttackedSquares();
 		}
@@ -44,19 +46,21 @@ public class King extends ChessPiece {
 
 			}
 
-			// Checks if it is an opponent, and if that piece is being protected by another piece
+			// Checks if it is an opponent, and if that piece is being protected by another
+			// piece
 			if (getBoard().positionExists(collumn, row) && isThereOpponentPiece(new Position(collumn, row))) {
 				if (!isThatPieceBeingProtected(collumn, row)) {
 					pMov[collumn][row] = true;
 				}
 			}
-			//This is because pawns are not included on the aSquares[][] because their capture logic is weird, hence the special treatment
-			if(this.isAPawnGuardingThisSquare(collumn, row)) {
-				pMov[collumn][row]=false;
+			// This is because pawns are not included on the aSquares[][] because their
+			// capture logic is weird, hence the special treatment
+			if (this.isAPawnGuardingThisSquare(collumn, row)) {
+				pMov[collumn][row] = false;
 			}
 		}
 		// castle logic
-		
+
 		if (this.getMoveCount() == 0 && this.conditionLongCastle()) {
 			pMov[2][this.position.getRow()] = true;
 			chessMatch.setCastleAvaliable(true);
@@ -76,32 +80,34 @@ public class King extends ChessPiece {
 	private boolean isAPawnGuardingThisSquare(int column, int row) {
 		if (this.getColor() == Color.WHITE) {
 
-			if ((getBoard().positionExists(column+1, row+1)&&getBoard().piece(column + 1, row + 1) != null
+			if ((getBoard().positionExists(column + 1, row + 1) && getBoard().piece(column + 1, row + 1) != null
 					&& getBoard().piece(column + 1, row + 1).toString().equals("P")
 					&& getBoard().piece(column + 1, row + 1).getColor() == Color.BLACK)
-					|| (getBoard().positionExists(column-1, row+1)&&(getBoard().piece(column - 1, row + 1) != null
-							&& getBoard().piece(column - 1, row + 1).toString().equals("P"))
+					|| (getBoard().positionExists(column - 1, row + 1)
+							&& (getBoard().piece(column - 1, row + 1) != null
+									&& getBoard().piece(column - 1, row + 1).toString().equals("P"))
 							&& getBoard().piece(column - 1, row + 1).getColor() == Color.BLACK)) {
 				return true;
 			}
-			} else if (this.getColor() == Color.BLACK) {
-				if ((getBoard().positionExists(column+1, row-1)&&getBoard().piece(column + 1, row - 1) != null
-						&& getBoard().piece(column + 1, row -1).toString().equals("P")
-						&& getBoard().piece(column + 1, row -1).getColor() == Color.WHITE)
-						|| (getBoard().positionExists(column-1, row-1)&&getBoard().piece(column - 1, row -1) != null
-								&& getBoard().piece(column - 1, row -1).toString().equals("P"))
-								&& getBoard().piece(column - 1, row -1).getColor() == Color.WHITE) {
-					return true;
-				}
+		} else if (this.getColor() == Color.BLACK) {
+			if ((getBoard().positionExists(column + 1, row - 1) && getBoard().piece(column + 1, row - 1) != null
+					&& getBoard().piece(column + 1, row - 1).toString().equals("P")
+					&& getBoard().piece(column + 1, row - 1).getColor() == Color.WHITE)
+					|| (getBoard().positionExists(column - 1, row - 1) && getBoard().piece(column - 1, row - 1) != null
+							&& getBoard().piece(column - 1, row - 1).toString().equals("P"))
+							&& getBoard().piece(column - 1, row - 1).getColor() == Color.WHITE) {
+				return true;
 			}
-			return false;
-		
+		}
+		return false;
+
 	}
 
 	private boolean isThatPieceBeingProtected(int collumn, int row) {
 		
 		ChessPiece p = (ChessPiece) getBoard().piece(collumn, row);
 		return p.amIBeingProtected(p);
+		
 	}
 
 	private boolean conditionLongCastle() {
@@ -117,7 +123,8 @@ public class King extends ChessPiece {
 				&& getBoard().piece(6, this.position.getRow()) == null;
 
 	}
-	//Add all the attacked squares of the scanned piece to aSquares
+
+	// Add all the attacked squares of the scanned piece to aSquares
 	private void mergeAttackedSquares(boolean[][] opponentPMov) {
 
 		for (int i = 0; i < getBoard().getColumns(); i++) {
@@ -135,14 +142,15 @@ public class King extends ChessPiece {
 		for (int i = 0; i < getBoard().getColumns(); i++) {
 			for (int j = 0; j < getBoard().getRows(); j++) {
 				if (getBoard().piece(i, j) != null && getBoard().piece(i, j).getColor() != this.getColor()
-						&& getBoard().piece(i, j).toString() != "K"&&getBoard().piece(i, j).toString() != "P") {
+						&& getBoard().piece(i, j).toString() != "K" && getBoard().piece(i, j).toString() != "P") {
 					mergeAttackedSquares(getBoard().piece(i, j).possibleMoves());
 
 				}
 			}
 		}
 	}
-	//Return only the moves that are both possible and legal
+
+	// Return only the moves that are both possible and legal
 	public boolean[][] filterLegalMoves(boolean[][] pMov) {
 		for (int i = 0; i < getBoard().getColumns(); i++) {
 			for (int j = 0; j < getBoard().getRows(); j++) {
@@ -154,7 +162,10 @@ public class King extends ChessPiece {
 		}
 		return pMov;
 	}
-	//Returns the squares that when blocked will protect the king from check,  ̶b̶u̶t̶ ̶i̶t̶s̶ ̶n̶o̶t̶ ̶w̶o̶r̶k̶i̶n̶g̶ ̶b̶e̶c̶a̶u̶s̶e̶ ̶p̶a̶w̶n̶s̶ ̶a̶r̶e̶ ̶w̶e̶i̶r̶d̶ now its working
+
+	// Returns the squares that when blocked will protect the king from check,
+	// ̶b̶u̶t̶ ̶i̶t̶s̶ ̶n̶o̶t̶ ̶w̶o̶r̶k̶i̶n̶g̶ ̶b̶e̶c̶a̶u̶s̶e̶ ̶p̶a̶w̶n̶s̶ ̶a̶r̶e̶ w̶e̶i̶r̶d̶  now its working
+	
 	private boolean[][] whereIsTheAttackCommingFrom() {
 
 		boolean[][] attackRoute = new boolean[getBoard().getColumns()][getBoard().getRows()];
@@ -194,21 +205,41 @@ public class King extends ChessPiece {
 				}
 			}
 		}
-		//Damm Pawns
-		for (int[] direction : directions) {
+		//Those damned pawns 
+		if (this.getColor().equals(Color.WHITE)) {
+			int[][] bPawnAttackDirections = { { -1, 1 }, { 1, 1 } };
+			for (int[] direction : directions) {
 
-			int dCollumn = direction[0];
-			int dRow = direction[1];
-			int collumn = getPosition().getCollumn() + dCollumn;
-			int row = getPosition().getRow() + dRow;
-			
-			if (getBoard().positionExists(collumn, row) && isThereOpponentPiece(new Position(collumn, row))
-					&&getBoard().piece(collumn,row).toString().equals("P")) {
-				attackRoute[collumn][row] = true;
+				int dCollumn = direction[0];
+				int dRow = direction[1];
+				int collumn = getPosition().getCollumn() + dCollumn;
+				int row = getPosition().getRow() + dRow;
+
+				if (getBoard().positionExists(collumn, row) && isThereOpponentPiece(new Position(collumn, row))
+						&& getBoard().piece(collumn, row).toString().equals("P")) {
+					attackRoute[collumn][row] = true;
+				}
+
 			}
-			
-		
 		}
+		if (this.getColor().equals(Color.BLACK)) {
+			int[][] wPawnAttackDirections = { { -1, -1 }, { 1, -1 } };
+			for (int[] direction : directions) {
+
+				int dCollumn = direction[0];
+				int dRow = direction[1];
+				int collumn = getPosition().getCollumn() + dCollumn;
+				int row = getPosition().getRow() + dRow;
+
+				if (getBoard().positionExists(collumn, row) && isThereOpponentPiece(new Position(collumn, row))
+						&& getBoard().piece(collumn, row).toString().equals("P")) {
+					attackRoute[collumn][row] = true;
+				}
+
+			}
+		}
+		
+		
 		int[][] horseDirections = { { 1, 2 }, { 1, -2 }, { -1, 2 }, { -1, -2 }, { 2, 1 }, { 2, -1 }, { -2, -1 },
 				{ -2, 1 } };
 
@@ -230,7 +261,9 @@ public class King extends ChessPiece {
 		return attackRoute;
 
 	}
-	// I think the next 2 function are self explanatory, so i won't even comment on what they do
+
+	// I think the next 2 function are self explanatory, so i won't even comment on
+	// what they do
 	public boolean canIBeHelped(ChessPiece p) {
 		boolean[][] canBeDefended = p.possibleMoves();
 		boolean[][] attackRoute = this.whereIsTheAttackCommingFrom();
@@ -244,7 +277,7 @@ public class King extends ChessPiece {
 
 		return false;
 	}
-	
+
 	public boolean[][] helpMe(boolean[][] pMov) {
 
 		boolean[][] attackRoute = this.whereIsTheAttackCommingFrom();

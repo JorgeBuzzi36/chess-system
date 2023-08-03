@@ -21,6 +21,11 @@ public class UI {
 	
 	// Peças vão de 0 a 7 para Colunas I e Linhas J, ao printar A 8, vamos ter linha j=7 e coluna i=0 com chessBoardPosition[0][7] = torre preta
 	
+	public static void cleanScrean() {
+		System.out.println("\033[H\033[2J");
+		System.out.flush();
+	}
+	
 	public static void printBoard(ChessPiece[][] chessBoardPosition, boolean[][] greenTiles) {
 		
 		for(int j=Board.getRows() -1; j>=0;j--) {
@@ -58,6 +63,39 @@ public class UI {
 			System.out.print(ANSI_YELLOW+" "+piece.toString()+ANSI_RESET);
 		}
 		
+	}
+	private static String convertUnicode(String s) {
+		
+		switch(s) {
+		case"P":
+			
+			s="♟︎";
+			break;
+			
+		case "R":
+			
+			s="♜";
+			break;
+			
+		case "H":
+			
+			s="♞";
+			break;
+			
+		case"Q":
+			s="♛";
+			break;
+		case"B":
+			s= "♝";
+			break;
+		case"K":
+			s = "♚";
+			break;
+			
+		default:
+			break;
+		}
+		return s;
 	}
 	
 }

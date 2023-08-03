@@ -27,6 +27,7 @@ public class Program {
 		}
 		sc.nextLine();
 		while (!chessMatch.isCheckMate()) {
+			UI.cleanScrean();
 			chessMatch.isCheck();
 			greenTiles = chessMatch.movablePieces();
 			if(chessMatch.isCheckMate()){
@@ -41,6 +42,7 @@ public class Program {
 			//List containing the log of the chess match ( i'm thinking of position and clock time at the move)
 			//UI display the captured pieces
 			//Improve UI in general, clear the screen every time i have to print the board or a new message
+			// Try to print Unicode chess Piece, but i can't get them to line up
 			
 			
 			
@@ -51,7 +53,7 @@ public class Program {
 			String chessMoveScan = sc.nextLine();
 			while(!checkShortInput(chessMoveScan)) {
 				System.out.println("Invalid input");
-				chessMoveScan = sc.nextLine();
+				//chessMoveScan = sc.nextLine();
 			}
 			ChessMove chessMove = new ChessMove (chessMoveScan,chessMatch);
 			ChessPosition[] move = chessMove.extractChessPosition();
