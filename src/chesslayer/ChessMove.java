@@ -89,7 +89,7 @@ public class ChessMove {
 		chessPieceMatchPosition = chessPieceMatchPosition.fromPosition(p.getPosition());
 		return chessPieceMatchPosition;
 	}
-	
+	//Special treatment in case 2 pieces of the same type can o to the target square
 	private ChessPosition thereIsAnotherPossibleMove(Set<ChessPosition> m) {
 		Scanner sc2 = new Scanner(System.in);
 		Set<String> pChoices = new HashSet<>();

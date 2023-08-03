@@ -36,11 +36,15 @@ public class Program {
 				UI.printBoard(chessMatch.getPieces(), greenTiles);
 			}
 			switch(optionInputType) {
-			// Codigo para notação algebrica curta ( ex: pe4 ) 
+			//Everything that was implemented works, so its 100% functional chess game, this is the list of missing features:
+			//Clock
+			//List containing the log of the chess match ( i'm thinking of position and clock time at the move)
+			//UI display the captured pieces
+			//Improve UI in general, clear the screen every time i have to print the board or a new message
 			
-				//IMPORTANTE : LOGICA DE PEOES PRA IMPLEMENAÇOES QUE USAM RAYCASTING
-				//Falta implementar lista com Log das jogadas efetuadas (opcional)
 			
+			
+			// Codigo para notação algebrica curta ( ex: pe4 ) Working
 			//-----------------------------------------------------
 			case 's':
 			System.out.println(chessMatch.getCurrentPlayer() + " to move:");
@@ -65,7 +69,7 @@ public class Program {
 			 
 			 
 			
-			// Codigo notaçao algebrica longa (ex: enter e2 then enter e4)
+			// Codigo notaçao algebrica longa (ex: enter e2 then enter e4) Working
 			//------------------------------------------------
 			default:
 			System.out.println(chessMatch.getCurrentPlayer() + " to move:");

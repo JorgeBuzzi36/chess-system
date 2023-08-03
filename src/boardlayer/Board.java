@@ -2,11 +2,13 @@ package boardlayer;
 
 public class Board {
 	
-	private static int columns=8;
-	private static int rows=8;
+	private static int columns;
+	private static int rows;
 	private Piece pieces[][];
 	
-	public Board() {
+	public Board(int columns, int rows) {
+		this.columns=columns;
+		this.rows=rows;
 		pieces = new Piece[this.columns][this.rows];	
 	
 	}

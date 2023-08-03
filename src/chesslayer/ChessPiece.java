@@ -132,7 +132,7 @@ public abstract class ChessPiece extends Piece {
 			// Sees if the piece is from the opponent
 
 			if (getBoard().positionExists(collumn, row) && !isThereOpponentPiece(new Position(collumn, row))) {
-				// chnge the name of the canMoveInThisDirection function
+				// change the name of the canMoveInThisDirection function, it basically sees if its a bishop on the diagonal or a rook on straight and so on...
 				if (canMoveInThisDirection(dCollumn * dRow, getBoard().piece(new Position(collumn, row)).toString())) {
 					return true;
 					

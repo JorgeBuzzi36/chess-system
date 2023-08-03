@@ -17,11 +17,11 @@ public class ChessMatch {
 	private ChessPosition whiteKingPosition = new ChessPosition('e', 1);
 	private ChessPosition blackKingPosition = new ChessPosition('e', 8);
 	private ChessPosition currentKingPosition;
-
+	
 	public ChessMatch() {
-		board = new Board();
+		board = new Board(8,8);
 		this.startMatch();
-		// for any starting king position
+		// for any starting king position ( not yet fully implemented ) 
 		this.setKingsPositions();
 
 	}
@@ -109,14 +109,14 @@ public class ChessMatch {
 		//board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('a', 2).toPosition());
 		//board.placePiece(new Bishop(this.board, Color.BLACK), new ChessPosition('g', 4).toPosition());
 		//board.placePiece(new Rook(this.board, Color.BLACK), new ChessPosition('e', 6).toPosition());
-		board.placePiece(new Pawn(this.board, Color.BLACK, this), new ChessPosition('c', 3).toPosition());
 		board.placePiece(new Pawn(this.board, Color.BLACK, this), new ChessPosition('f', 3).toPosition());
+		//board.placePiece(new Pawn(this.board, Color.BLACK, this), new ChessPosition('f', 3).toPosition());
 		//board.placePiece(new Pawn(this.board, Color.WHITE, this), new ChessPosition('d', 3).toPosition());
 		//board.placePiece(new Pawn(this.board, Color.WHITE, this), new ChessPosition('f', 1).toPosition());
 		//board.placePiece(new Pawn(this.board, Color.WHITE, this), new ChessPosition('f', 2).toPosition());
 		//board.placePiece(new Bishop(this.board, Color.WHITE), new ChessPosition('f', 3).toPosition());		
-		board.placePiece(new Knight(this.board, Color.BLACK), new ChessPosition('d', 2).toPosition());
-		board.placePiece(new Pawn(this.board, Color.WHITE, this), new ChessPosition('e', 6).toPosition());
+		//board.placePiece(new Knight(this.board, Color.BLACK), new ChessPosition('d', 2).toPosition());
+		board.placePiece(new Rook(this.board, Color.WHITE), new ChessPosition('b', 2).toPosition());
 		board.placePiece(new Knight(this.board, Color.WHITE), new ChessPosition('f', 7).toPosition());
 	}
 
@@ -226,10 +226,10 @@ public class ChessMatch {
 	}
 
 	public ChessPiece performChessMove(ChessPosition source, ChessPosition target) {
-
+		//This whole code sucks, but it works, can easily improve readability tho
 		ChessPiece p = (ChessPiece) getBoard().piece(source.toPosition());
 		Piece captured = null;
-
+		//Checks for promotion and en passant rules
 		if (p.toString() == "P") {
 			this.pawnHandler(p, target);
 
@@ -238,6 +238,8 @@ public class ChessMatch {
 			captured = getBoard().removePiece(target.toPosition());
 
 		}
+		//Special treatment to en passant capture, confirms it by looking if the target position is empty
+		// and if there is an enemy piece behind it(already assumed its a en pessant vunerable pawn from Pawn.possibleMoves())
 		if (this.enPassantVunerable != null && this.enPassantVunerable.getPosition() != null) {
 			if (this.currentPlayer == Color.WHITE) {
 				ChessPosition enPassantTest = new ChessPosition(target.getColumn(), target.getRow() - 1);
@@ -274,7 +276,8 @@ public class ChessMatch {
 		p = (ChessPiece) getBoard().piece(source.toPosition());
 		getBoard().removePiece(source.toPosition());
 		getBoard().placePiece(p, target.toPosition());
-
+		
+		//Updates king position
 		if (p.toString().equals("K")) {
 			if (p.getColor() == Color.WHITE) {
 				this.whiteKingPosition = target;
@@ -284,13 +287,14 @@ public class ChessMatch {
 			}
 
 		}
-
+		//Pawn is no longer enPassantVunerable at the end of the turn
 		if (this.enPassantVunerable != null && this.enPassantVunerable.getMoveCount() > 0) {
 			this.enPassantVunerable = null;
 		}
 
 		p.increasseMoveCount();
-
+		// Effectively ends the turn, change the current player and updates the current king position to the 
+		// king of its respective color
 		if (this.currentPlayer == Color.WHITE) {
 			this.currentPlayer = Color.BLACK;
 			this.currentKingPosition = this.blackKingPosition;
@@ -336,7 +340,9 @@ public class ChessMatch {
 			King king = (King) getBoard().piece(this.currentKingPosition.toPosition());
 			for (int i = 0; i < board.getColumns(); i++) {
 				for (int j = 0; j < board.getRows(); j++) {
-					if (movP[i][j]) {
+					// Oversight number 1024203 fixed, king can't be help by himself,calling this function with the king
+					//would result in him being marked as a non movable piece even if he was, its fixed now
+					if (movP[i][j]&&getBoard().piece(i,j).toString()!="K") {
 						movP[i][j] = king.canIBeHelped((ChessPiece) getBoard().piece(i, j));
 						if(!movP[i][j]) {
 							aux--;
@@ -348,7 +354,7 @@ public class ChessMatch {
 			}
 		}
 		System.out.println("Aux ta em "+aux);
-		//Checks for stalate mate or checkmate in case no possible moves were found
+		//Checks for stale mate or checkmate in case no possible moves were found
 		if (aux == 0 && this.check == 0) {
 			throw new ChessException("No more possible moves, Draw by stalemate");
 		} else if (aux == 0 && this.check > 0) {

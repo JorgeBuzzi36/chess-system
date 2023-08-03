@@ -26,7 +26,8 @@ public abstract class Piece {
 	
 	public abstract boolean[][] possibleMoves();
 	
-	// I don't think i ever used this, i rather load all the possible moves of a piece once on a boolean[][] if i need to use it on a function
+	// I don't think i ever used this, i rather load all the possible moves of a 
+	//piece once on a boolean[][] if i need to use it on a function, but hey... its there i guess
 	
 	public boolean possibleMove(Position position) {
 		
