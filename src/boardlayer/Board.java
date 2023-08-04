@@ -62,13 +62,13 @@ public class Board {
     
     public boolean isTherePiece(int collumn,int row) {
         if (!positionExists(collumn, row)) {
-            throw new IllegalArgumentException("Position does not exist on the board.");
+            throw new BoardException("Position does not exist on the board.");
         }
         return piece(collumn,row) != null;
     }
     public boolean isTherePiece(Position position) {
         if (!positionExists(position)) {
-            throw new IllegalArgumentException("Position does not exist on the board.");
+            throw new BoardException("Position does not exist on the board.");
         }
         return piece(position) != null;
     }

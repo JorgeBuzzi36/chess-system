@@ -281,6 +281,7 @@ public class ChessMatch {
 		} else {
 			this.currentPlayer = Color.WHITE;
 			this.currentKingPosition = this.whiteKingPosition;
+			this.turn++;
 		}
 		return (ChessPiece) captured;
 	}
