@@ -15,6 +15,7 @@ public class Program {
 		ChessMatch chessMatch = new ChessMatch();
 		boolean greenTiles[][] = new boolean[chessMatch.getBoard().getColumns()][chessMatch.getBoard().getRows()];
 		UI.printBoard(chessMatch.getPieces(), greenTiles);
+		boolean[][] emptyTiles = new boolean [chessMatch.getBoard().getColumns()][chessMatch.getBoard().getRows()];
 		System.out.println("Do you want to have the possible movable pieces highlighted?y/n");
 		char optionHighlitedPieces = sc.next().charAt(0);
 		System.out.println("Do you want the short or long notation?(s/any other key) short : pe4, long: e2<Enter>e4");
@@ -35,6 +36,9 @@ public class Program {
 			}
 			if (optionHighlitedPieces == 'y') {
 				UI.printBoard(chessMatch.getPieces(), greenTiles);
+			}
+			else {
+				UI.printBoard(chessMatch.getPieces(), emptyTiles);
 			}
 			switch(optionInputType) {
 			//Everything that was implemented works, so its 100% functional chess game, this is the list of missing features:
